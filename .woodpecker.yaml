@@ -29,7 +29,6 @@ steps:
     image: node
     environment:
       PNPM_HOME: /pnpm
-      PATH: "$PNPM_HOME:$PATH"
     commands:
       - corepack enable
       - pnpm fetch --prod
