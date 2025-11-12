@@ -45,7 +45,7 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
+      - ln -sf /site/.next .next
       - pnpm run build
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
-      - /home/ubuntu/supabase-project/volumes/site/.next/cache:.next/cache
