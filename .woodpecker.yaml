@@ -45,6 +45,8 @@ steps:
       - pnpm lint
 
   build:
+    environment:
+      PAGES_BASE_PATH: /site/public
     depends_on:
       - install-dependencies
       - lint
@@ -54,6 +56,6 @@ steps:
     commands:
       - corepack enable
       - pnpm run build
-      - cp -r .next/* /public
     volumes:
-      - /home/ubuntu/supabase-project/volumes/site/public:/public
+      - /home/ubuntu/supabase-project/volumes/site:/site
+      - /home/ubuntu/supabase-project/volumes/site/.next/cache:.next/cache
