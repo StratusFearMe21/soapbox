@@ -37,7 +37,7 @@ steps:
 
   build:
     environment:
-      PAGES_BASE_PATH: /
+      PAGES_BASE_PATH: ""
       PAGES_OUTPUT: /site/public
     depends_on:
       - install-dependencies
