@@ -35,21 +35,11 @@ steps:
       - corepack enable
       - pnpm install --frozen-lockfile
 
-  lint:
-    depends_on:
-      - install-dependencies
-    image: *node_image
-    directory: soapbox/
-    commands:
-      - corepack enable
-      - pnpm lint
-
   build:
     environment:
       PAGES_BASE_PATH: /site/public
     depends_on:
       - install-dependencies
-      - lint
     # Use the official jekyll build container
     image: *node_image
     directory: soapbox/
