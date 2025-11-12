@@ -53,6 +53,7 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
-      - pnpm run build /public
+      - pnpm run build
+      - cp -r .next /public
     volumes:
       - /home/ubuntu/supabase-project/volumes/site/public:/public
