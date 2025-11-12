@@ -49,5 +49,7 @@ steps:
       - ln -sf /site/.next .next
       - ln -sf /site/public dist
       - pnpm run build
+      - ls
+      - ls dist
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
