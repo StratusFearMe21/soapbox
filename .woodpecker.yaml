@@ -47,6 +47,7 @@ steps:
   build:
     depends_on:
       - install-dependencies
+      - lint
     # Use the official jekyll build container
     image: *node_image
     directory: soapbox/
