@@ -21,16 +21,26 @@
 # .domains in the target repo so codeberg pages works for custom domains
 #
 
+when:
+  event: [push, pull_request]
+
+variables:
+  - &node_image 'docker.io/node:24-alpine'
+
 steps:
-  build:
-    when:
-      event: [push, pull_request]
-    # Use the official jekyll build container
-    image: node
-    environment:
-      PNPM_HOME: /pnpm
-      PATH: "$PNPM_HOME:$PATH"
+  install-dependencies:
+    image: *node_image
+    directory: soapbox/
     commands:
       - corepack enable
-      - pnpm fetch --prod
+      - pnpm install --frozen-lockfile
+
+  build:
+    depends_on:
+      - install-dependencies
+    # Use the official jekyll build container
+    image: *node_image
+    directory: soapbox/
+    commands:
+      - corepack enable
       - pnpm run build
