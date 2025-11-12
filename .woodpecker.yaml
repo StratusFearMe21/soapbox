@@ -38,6 +38,7 @@ steps:
   build:
     environment:
       PAGES_BASE_PATH: /site/public
+      PAGES_OUTPUT: /site/public
     depends_on:
       - install-dependencies
     # Use the official jekyll build container
