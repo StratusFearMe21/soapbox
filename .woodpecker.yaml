@@ -39,7 +39,7 @@ steps:
     depends_on:
       - install-dependencies
     image: *node_image
-    directory: web/
+    directory: soapbox/
     commands:
       - corepack enable
       - pnpm lint
