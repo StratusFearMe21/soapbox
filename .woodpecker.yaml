@@ -38,7 +38,7 @@ steps:
   build:
     environment:
       PAGES_BASE_PATH: ""
-      PAGES_OUTPUT: public/dist
+      PAGES_OUTPUT: build/dist
     depends_on:
       - install-dependencies
     # Use the official jekyll build container
@@ -47,7 +47,7 @@ steps:
     commands:
       - corepack enable
       - ln -sf /site/.next .next
-      - ln -sf /site/public public
+      - ln -sf /site/public build
       - pnpm run build
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
