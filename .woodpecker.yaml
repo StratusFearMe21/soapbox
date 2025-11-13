@@ -34,7 +34,7 @@ steps:
     commands:
       - corepack enable
       - pnpm config set store-dir /site/pnpm
-      - pnpm install --frozen-lockfile --shamefully-hoist
+      - pnpm install --frozen-lockfile
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
 
@@ -46,6 +46,8 @@ steps:
     commands:
       - corepack enable
       - pnpm lint
+    volumes:
+      - /home/ubuntu/supabase-project/volumes/site:/site
   
   build:
     environment:
@@ -59,8 +61,6 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
-      - ls node_modules
-      - ls node_modules/@tailwindcss/postcss
       - ln -sf /site/.next .next
       - ln -sf /site/public build
       - pnpm run build
