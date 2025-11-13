@@ -61,7 +61,8 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
-      - pnpm install --frozen-lockfile
+      - ls node_modules
+      - ls node_modules/@tailwindcss/postcss
       - ln -sf /site/.next .next
       - ln -sf /site/public build
       - pnpm run build
