@@ -35,6 +35,7 @@ steps:
       PNPM_HOME: /site/pnpm
     commands:
       - corepack enable
+      - pnpm store path
       - pnpm install --frozen-lockfile
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
