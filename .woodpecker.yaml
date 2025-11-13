@@ -47,7 +47,7 @@ steps:
     commands:
       - corepack enable
       - ln -sf /site/.next .next
-      - ln -sf /site/public/dist dist
+      - ln -sf /site/public public
       - pnpm run build
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
