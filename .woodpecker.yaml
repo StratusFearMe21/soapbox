@@ -33,10 +33,10 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
-      - pnpm config set store-dir /site/pnpm
+      # - pnpm config set store-dir /site/pnpm
       - pnpm install --frozen-lockfile
-    volumes:
-      - /home/ubuntu/supabase-project/volumes/site:/site
+    # volumes:
+    #   - /home/ubuntu/supabase-project/volumes/site:/site
 
   lint:
     depends_on:
@@ -46,13 +46,13 @@ steps:
     commands:
       - corepack enable
       - pnpm lint
-    volumes:
-      - /home/ubuntu/supabase-project/volumes/site:/site
+    # volumes:
+    #   - /home/ubuntu/supabase-project/volumes/site:/site
   
   build:
-    environment:
-      PAGES_BASE_PATH: ""
-      PAGES_OUTPUT: build/dist
+    # environment:
+      # PAGES_BASE_PATH: ""
+      # PAGES_OUTPUT: build/dist
     depends_on:
       - install-dependencies
       - lint
@@ -61,8 +61,8 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
-      - ln -sf /site/.next .next
-      - ln -sf /site/public build
+      # - ln -sf /site/.next .next
+      # - ln -sf /site/public build
       - pnpm run build
-    volumes:
-      - /home/ubuntu/supabase-project/volumes/site:/site
+    # volumes:
+    #   - /home/ubuntu/supabase-project/volumes/site:/site
