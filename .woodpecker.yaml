@@ -31,6 +31,8 @@ steps:
   install-dependencies:
     image: *node_image
     directory: soapbox/
+    environment:
+      PNPM_HOME: /site/pnpm
     commands:
       - corepack enable
       - pnpm install --frozen-lockfile
@@ -40,12 +42,15 @@ steps:
       - install-dependencies
     image: *node_image
     directory: soapbox/
+    environment:
+      PNPM_HOME: /site/pnpm
     commands:
       - corepack enable
       - pnpm lint
   
   build:
     environment:
+      PNPM_HOME: /site/pnpm
       PAGES_BASE_PATH: ""
       PAGES_OUTPUT: build/dist
     depends_on:
