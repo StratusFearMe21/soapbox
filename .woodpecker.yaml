@@ -36,6 +36,8 @@ steps:
     commands:
       - corepack enable
       - pnpm install --frozen-lockfile
+    volumes:
+      - /home/ubuntu/supabase-project/volumes/site:/site
 
   lint:
     depends_on:
@@ -47,6 +49,8 @@ steps:
     commands:
       - corepack enable
       - pnpm lint
+    volumes:
+      - /home/ubuntu/supabase-project/volumes/site:/site
   
   build:
     environment:
