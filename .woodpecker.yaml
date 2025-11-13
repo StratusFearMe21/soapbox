@@ -34,7 +34,7 @@ steps:
     commands:
       - corepack enable
       - pnpm config set store-dir /site/pnpm
-      - pnpm install --frozen-lockfile
+      - pnpm install --frozen-lockfile --shamefully-hoist
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
 
@@ -46,8 +46,6 @@ steps:
     commands:
       - corepack enable
       - pnpm lint
-    volumes:
-      - /home/ubuntu/supabase-project/volumes/site:/site
   
   build:
     environment:
