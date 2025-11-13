@@ -46,6 +46,7 @@ steps:
   
   build:
     environment:
+      PNPM_HOME: /site/pnpm
       PAGES_BASE_PATH: ""
       PAGES_OUTPUT: build/dist
     depends_on:
