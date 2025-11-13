@@ -61,6 +61,7 @@ steps:
     directory: soapbox/
     commands:
       - corepack enable
+      - pnpm install --frozen-lockfile
       - ln -sf /site/.next .next
       - ln -sf /site/public build
       - pnpm run build
