@@ -1,9 +1,7 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  distDir: "build/dist",
-  basePath: process.env.PAGES_BASE_PATH,
+  /* config options here */
 };
 
 export default nextConfig;
