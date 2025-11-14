@@ -1,26 +1,3 @@
-# NodeJS / 11ty on Woodpecker to codeberg pages
-#
-# https://cjerrington.codeberg.page/eleventy-base-blog-site/blog/codebergpagesbuild/
-#
-# This file would typically be .woodpecker.yml in the root of your repository.
-#
-# Takes a repository with 11ty source, generates the static site and
-# pushes the result to codeberg pages
-#
-#
-# SECRETS
-# https://woodpecker-ci.org/docs/usage/secrets
-# CBTOKEN needs a codeberg access token as secret in woodpecker config
-# CBMAIL with email address for git config
-# SOURCEREPO must be replaced with the source repo
-# DESTREPO must be replaced with the target codeberg pages repo
-# CBUSERNAME must be replaced with the user/org
-#
-#
-# We also assume a domains file in the source repo that gets copied to
-# .domains in the target repo so codeberg pages works for custom domains
-#
-
 when:
   event: [push, pull_request]
 
