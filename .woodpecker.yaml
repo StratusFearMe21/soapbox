@@ -50,11 +50,16 @@ steps:
       - /home/ubuntu/supabase-project/volumes/site:/site
   
   docker-build:
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL:
+        from_secret: supabase_url
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
+        from_secret: publishable_key
     depends_on:
       - install-dependencies
       - lint
     image: docker:29.0.0 # fix at least major here
     commands:
-      - docker build -t soapbox soapbox
+      - docker build --build-arg NEXT_PUBLIC_SUPABASE_URL=$${NEXT_PUBLIC_SUPABASE_URL} --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY} -t soapbox soapbox
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
