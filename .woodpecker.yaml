@@ -49,20 +49,12 @@ steps:
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
   
-  build:
-    environment:
-      PAGES_BASE_PATH: ""
-      PAGES_OUTPUT: build/dist
+  docker-build:
     depends_on:
       - install-dependencies
       - lint
-    # Use the official jekyll build container
-    image: *node_image
-    directory: soapbox/
+    image: docker:20.10.16 # fix at least major here
     commands:
-      - corepack enable
-      # - ln -sf /site/.next .next
-      - ln -sf /site/public build
-      - pnpm run build
+      - docker build -t soapbox soapbox
     volumes:
-      - /home/ubuntu/supabase-project/volumes/site:/site
+      - /var/run/docker.sock:/var/run/docker.sock
