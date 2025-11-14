@@ -39,6 +39,7 @@ steps:
     commands:
       - echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" >> .env
       - echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" >> .env
+      - cat .env
       - docker build -t soapbox soapbox
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
