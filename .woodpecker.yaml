@@ -37,6 +37,6 @@ steps:
       - lint
     image: docker:29.0.0 # fix at least major here
     commands:
-      - docker build --build-arg NEXT_PUBLIC_SUPABASE_URL=$${NEXT_PUBLIC_SUPABASE_URL} --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY} -t soapbox soapbox
+      - docker build --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY -t soapbox soapbox
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
