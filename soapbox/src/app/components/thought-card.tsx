@@ -35,7 +35,7 @@ export default function ThoughtCard( { thought } : ThoughtProp ) {
 
   return (
     <div className={"w-96 border-t-4 p-4 relative hover:bg-slate-950"}>
-      <Link href={"/post/" + thought.profile.username + "/" + thought.id} className={"w-full h-full"}>
+      <Link href={"/user/" + thought.profile.username + "/thought/" + thought.id} className={"w-full h-full"}>
         <div className={"text-sm"}>
           <p className={"inline-block font-bold mr-1"}>
             {thought.profile.nickname}
