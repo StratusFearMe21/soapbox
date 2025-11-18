@@ -34,13 +34,13 @@ export default function Navbar() {
 
   return (
     <div
-      className={"p-6 flex justify-center items-center absolute top-0 left-0 w-48"}
+      className={"p-6 flex justify-center items-center fixed top-0 left-0 w-48"}
     >
       <div className={
         "flex flex-col justify-center items-start border-4 w-full bg-background"
       }>
-        <Link className={linkClass} href="/">Home</Link>
-        <Link className={linkClass} href="/test">Test</Link>
+        <Link className={linkClass} href="/">Feed (blank)</Link>
+        <Link className={linkClass} href="/test">Posting Test</Link>
         <Link className={linkClass} href={profileLink}>{profileName}</Link>
       </div>
     </div>
