@@ -1,6 +1,6 @@
 'use server';
 import { UserInfoBar } from "@/app/components/userInfoBar";
-import { Thought, ThoughtsTable}  from "@/app/components/thoughtsTable";
+import { Thought, ThoughtsTable}  from "@/app/components/temp/thoughtsTable";
 import { GetThoughts } from "@/app/test/actions/getThoughts";
 import ThoughtPostBox from "@/app/components/thoughtPostBox";
 import Navbar from "@/app/components/navbar";

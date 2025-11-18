@@ -18,7 +18,7 @@ export async function getUserPosts(slug: string) {
     .from("thoughts_test")
     .select(`
       *,
-      profiles!inner ( id, username )
+      profile:profiles!inner ( nickname, username )
     `)
     .eq('profiles.username', slug)
 

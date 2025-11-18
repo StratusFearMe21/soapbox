@@ -7,10 +7,6 @@
     font-size: 14pt;
 }
 
-.username::before {
-    content: "@"
-}
-
 .bio {
     margin: 0 0 20px 0;
 }
@@ -21,4 +17,8 @@
 
 .postCount {
     font-size: 10pt;
+}
+
+.editProfile {
+
 }
