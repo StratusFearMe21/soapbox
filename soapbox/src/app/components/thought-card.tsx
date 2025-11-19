@@ -1,18 +1,5 @@
 import Link from "next/link";
-
-export interface Thought {
-  id: number,
-  created_at: string,
-  user_id: string,
-  text_content: string,
-  profile: User
-}
-
-interface User {
-  id: string,
-  nickname: string,
-  username: string
-}
+import { Thought, Profile } from "@/app/components/thought";
 
 interface ThoughtProp {
   thought: Thought
@@ -35,13 +22,13 @@ export default function ThoughtCard( { thought } : ThoughtProp ) {
 
   return (
     <div className={"w-96 border-t-4 p-4 relative hover:bg-slate-950"}>
-      <Link href={"/user/" + thought.profile.username + "/thought/" + thought.id} className={"w-full h-full"}>
+      <Link href={"/user/" + thought.profile?.username + "/thought/" + thought.id} className={"w-full h-full"}>
         <div className={"text-sm"}>
           <p className={"inline-block font-bold mr-1"}>
-            {thought.profile.nickname}
+            {thought.profile?.nickname}
           </p>
           <p className={"inline-block"}>
-            @{thought.profile.username}
+            @{thought.profile?.username}
           </p>
         </div>
         <div className={"mt-2 mb-2"}>
