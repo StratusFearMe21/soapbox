@@ -7,6 +7,7 @@ import styles from "../styles.module.css";
 import ThoughtCard from "@/app/components/thought-card";
 import { Thought, Profile } from "@/app/components/thought"
 import { useState, useEffect } from "react";
+import formatDate from "@/app/utils/formatDate";
 
 export default function UserPage
   (
@@ -42,14 +43,7 @@ export default function UserPage
         setThoughtCount(thought_count);
         setIsOwnProfile(await checkIsOwnProfile());
 
-        const options = {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        }
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        setJoinDate(new Intl.DateTimeFormat(navigator.language, options).format(new Date(profile.created_at)));
+        if (profile.created_at) setJoinDate(formatDate(profile.created_at));
       }
       setLoading(false);
     }

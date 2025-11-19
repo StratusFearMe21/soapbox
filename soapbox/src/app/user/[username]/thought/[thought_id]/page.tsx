@@ -1,19 +1,21 @@
 "use client";
 
-import { getThought, deleteThought } from "@/app/user/actions/postActions";
+import { getThought, getReplies } from "@/app/user/actions/postActions";
 import DeleteThoughtButton from "@/app/components/delete-thought-button";
 import {useEffect, useState} from "react";
 import { Thought } from "@/app/components/thought";
+import ReplyCard from "@/app/components/reply-card";
+import formatDate from "@/app/utils/formatDate";
 
 export default function ThoughtPage
 (
   { params, } : { params: Promise<{username: string, thought_id: string}> }
 )
 {
-  const [ username, setUsername ] = useState<string>('');
   const [ createdAtDate, setCreatedAtDate ] = useState<string>('');
   const [ thoughtId, setThoughtId ] = useState<string>('');
   const [ thought, setThought ] = useState<Thought | null>(null);
+  const [ replies, setReplies ] = useState<Thought[] | null>(null);
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
@@ -21,32 +23,20 @@ export default function ThoughtPage
       const {username} = await params;
       const {thought_id} = await params;
       const thought = await getThought(username, thought_id);
+      const replies = await getReplies(thought_id);
 
       if (thought) {
-        const options = {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-        }
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const created_at_date = new Intl.DateTimeFormat(navigator.language, options).format(new Date(thought.created_at));
-        setCreatedAtDate(created_at_date);
+        setCreatedAtDate(formatDate(thought.created_at));
         setThought(thought);
+        setReplies(replies);
       }
 
-      setUsername(username);
       setThoughtId(thought_id);
       setLoading(false);
     }
 
     fetchThought();
   }, [params])
-
-
 
   return loading ? (
     <div></div>
@@ -75,6 +65,9 @@ export default function ThoughtPage
 
       <div>
         this is where replies would be!
+        {replies?.map((reply) => (
+          <ReplyCard key={reply.id} reply={reply} />
+        ))}
       </div>
     </div>
   ) : (
