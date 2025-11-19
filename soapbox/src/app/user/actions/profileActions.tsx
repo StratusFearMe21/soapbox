@@ -1,7 +1,7 @@
-import {createClient} from "@/app/utils/supabase/server";
+import {createClient} from "@/app/utils/supabase/client";
 
 export async function getUserProfile(username: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data: user } = await supabase
     .from('profiles')
     .select()
@@ -12,7 +12,7 @@ export async function getUserProfile(username: string) {
 }
 
 export async function getUserPosts(username: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { data: posts, error } = await supabase
     .from("thoughts_test")
@@ -26,10 +26,11 @@ export async function getUserPosts(username: string) {
 
   if (error) console.log(error);
   if (!error) return posts
+  else return [];
 }
 
 export async function getUserPostCount(username: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const {data: post_count, error} = await supabase.rpc('get_thoughts_count', { username_input: username})
   if (error) console.log(error);
   if (!error) return post_count
