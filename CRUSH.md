@@ -1,4 +1,4 @@
-# CRUSH.md
+# Soapbox
 
 ## Project Overview
 This is a Next.js + Supabase full-stack application called "soapbox" using the App Router. It's built with TypeScript, Tailwind CSS, and shadcn/ui components.
