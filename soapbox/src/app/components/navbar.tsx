@@ -17,12 +17,9 @@ export default function Navbar() {
       const {data, error} = await supabase.auth.getClaims();
       const user_id = data?.claims?.user_metadata?.sub;
       if (user_id) {
-        const {data: user} = await supabase
-          .from('profiles')
-          .select()
-          .eq('id', user_id)
-          .single()
-        setProfileLink("/user/" + user.username);
+        const {data: username} = await supabase
+          .rpc('get_username_from_id', { user_id_input: user_id })
+        setProfileLink("/user/" + username);
       } else {
         setProfileName("Login")
         setProfileLink("/login");

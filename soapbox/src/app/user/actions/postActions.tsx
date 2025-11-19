@@ -1,7 +1,6 @@
 'use server';
 
 import { createClient } from "@/app/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function getThought(username: string, thought_id: string) {
@@ -20,6 +19,22 @@ export async function getThought(username: string, thought_id: string) {
   else return null;
 }
 
+export async function getReplies(thought_id: string) {
+  const supabase = await createClient();
+  const { data: replies, error } = await supabase
+    .from('thoughts_test')
+    .select(`
+      *,
+      profile:profiles!inner ( nickname, username )
+    `)
+    .eq('parent_thought', thought_id);
+
+  if (error) return null;
+  else return replies;
+}
+
+
+// TODO shorten this function by simplifying to allowing all users to delete since the policies are set table-wise
 export async function deleteThought(formData: FormData) {
   'use server';
   const thought_id = formData.get("thought_id");

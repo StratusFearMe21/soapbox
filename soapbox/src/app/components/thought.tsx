@@ -3,6 +3,7 @@ export interface Thought {
   created_at: string,
   user_id: string,
   text_content: string,
+  parent_thought: string,
   profile?: Profile,
 }
 

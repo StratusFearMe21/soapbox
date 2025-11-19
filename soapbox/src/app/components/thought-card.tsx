@@ -1,23 +1,30 @@
+"use client";
+
 import Link from "next/link";
 import { Thought, Profile } from "@/app/components/thought";
+import formatDate from "@/app/utils/formatDate";
+import {useEffect, useState} from "react";
+import {createClient} from "@/app/utils/supabase/client";
 
 interface ThoughtProp {
   thought: Thought
 }
 
 export default function ThoughtCard( { thought } : ThoughtProp ) {
-  const options = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const created_at_date = new Intl.DateTimeFormat(navigator.language, options).format(new Date(thought.created_at));
+  const [ replyCount, setReplyCount ] = useState<number>(0);
+  const [ likeCount, setLikeCount ] = useState<number>(0);
+  const createdAt = formatDate(thought.created_at);
 
+  useEffect( () => {
+    const fetchInteractionCount = async () => {
+      const supabase = createClient();
+      const { data: replyCount } = await supabase
+        .rpc("get_thought_reply_count", { thought_id_input: thought.id })
+
+      setReplyCount(replyCount)
+    }
+    fetchInteractionCount();
+  }, [thought.id])
   //<div className={"absolute top-0 left-0 right-0 bottom-0 opacity-0 bg-slate-950 m-0 p-0 z-10 hover:opacity-30"}></div>
 
   return (
@@ -35,10 +42,11 @@ export default function ThoughtCard( { thought } : ThoughtProp ) {
           {thought.text_content}
         </div>
         <div className={"text-sm"}>
-          {created_at_date}
+          {createdAt}
         </div>
       </Link>
-      <div className={"text-sm"}>0 Likes</div>
+      <div className={"text-sm inline-block mr-4"}>{replyCount} Replies</div>
+      <div className={"text-sm inline-block"}>{likeCount} Likes</div>
     </div>
   )
 }
