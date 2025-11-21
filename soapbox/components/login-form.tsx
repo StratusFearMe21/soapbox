@@ -52,7 +52,7 @@ export function LoginForm({
       <Card>
         <CardHeader>
           <CardTitle className="text-center text-4xl">Login</CardTitle>
-          <CardDescription className="text-white">
+          <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
@@ -68,7 +68,6 @@ export function LoginForm({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="placeholder:text-zinc-700"
                 />
               </div>
               <div className="grid gap-2">
@@ -88,7 +87,6 @@ export function LoginForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="placeholder:text-zinc-700"
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
