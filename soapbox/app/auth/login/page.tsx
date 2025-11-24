@@ -1,9 +1,5 @@
 import {LoginForm} from "@/components/login-form";
 import Link from "next/link";
-import {DeployButton} from "@/components/deploy-button";
-import {hasEnvVars} from "@/lib/utils";
-import {EnvVarWarning} from "@/components/env-var-warning";
-import {AuthButton} from "@/components/auth-button";
 
 export default function Page() {
     return (
