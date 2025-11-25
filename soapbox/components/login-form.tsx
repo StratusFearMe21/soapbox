@@ -48,10 +48,10 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 ", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-center text-4xl">Login</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
@@ -83,6 +83,7 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
+                  placeholder="*********"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -99,7 +100,7 @@ export function LoginForm({
                 href="/auth/sign-up"
                 className="underline underline-offset-4"
               >
-                Sign up
+                Sign up here
               </Link>
             </div>
           </form>

@@ -60,8 +60,8 @@ export function SignUpForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Sign up</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
+          <CardTitle className="text-center text-4xl">Sign up</CardTitle>
+          <CardDescription className="text-center">Create a new account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignUp}>
@@ -84,6 +84,7 @@ export function SignUpForm({
                 <Input
                   id="password"
                   type="password"
+                  placeholder="**********"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
