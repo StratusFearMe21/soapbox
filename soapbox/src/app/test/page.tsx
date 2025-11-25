@@ -1,8 +1,8 @@
 'use server';
-import { UserInfoBar } from "@/app/components/userInfoBar";
+import { UserInfoBar } from "@/app/components/temp/userInfoBar";
 import { Thought, ThoughtsTable}  from "@/app/components/temp/thoughtsTable";
 import { GetThoughts } from "@/app/test/actions/getThoughts";
-import ThoughtPostBox from "@/app/components/thoughtPostBox";
+import ThoughtPostBox from "@/app/components/temp/thoughtPostBox";
 import Navbar from "@/app/components/navbar";
 
 export default async function TestPage() {

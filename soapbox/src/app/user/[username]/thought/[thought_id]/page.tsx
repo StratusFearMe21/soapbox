@@ -1,11 +1,12 @@
 "use client";
 
-import { getThought, getReplies } from "@/app/user/actions/postActions";
+import {getThought, getReplies, getFullThoughtInfo} from "@/app/user/actions/postActions";
 import DeleteThoughtButton from "@/app/components/delete-thought-button";
 import {useEffect, useState} from "react";
 import { Thought } from "@/app/components/thought";
 import ReplyCard from "@/app/components/reply-card";
 import formatDate from "@/app/utils/formatDate";
+import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 
 export default function ThoughtPage
 (
@@ -16,23 +17,34 @@ export default function ThoughtPage
   const [ thoughtId, setThoughtId ] = useState<string>('');
   const [ thought, setThought ] = useState<Thought | null>(null);
   const [ replies, setReplies ] = useState<Thought[] | null>(null);
+  const [ replyCount, setReplyCount ] = useState<number>(0);
+  const [ likeCount, setLikeCount ] = useState<number>(0);
+  const [ isOwnThought, setIsOwnThought ] = useState<boolean>(false);
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchThought = async () => {
       const {username} = await params;
       const {thought_id} = await params;
-      const thought = await getThought(username, thought_id);
-      const replies = await getReplies(thought_id);
+      const thought = await getFullThoughtInfo(username, thought_id);
 
       if (thought) {
-        setCreatedAtDate(formatDate(thought.created_at));
-        setThought(thought);
-        setReplies(replies);
+        //const replies = await getReplies(thought_id);
+        setThoughtId(thought_id);
+        setThought(thought.thought);
+        setCreatedAtDate(formatDate(thought.thought.created_at));
+        setReplyCount(thought.replyCount);
+        setLikeCount(thought.likeCount);
+        //TODO fix replies
+        //setReplies(thought.replies);
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
 
-      setThoughtId(thought_id);
-      setLoading(false);
+      // delete button visibility
+      const auth_id = await getCurrentUserId();
+      if (auth_id == thought?.thought.user_id) setIsOwnThought(true);
     }
 
     fetchThought();
@@ -43,7 +55,7 @@ export default function ThoughtPage
   ) : (thought) ? (
     <div className={"flex flex-col justify-center items-center w-screen h-screen"}>
       <div className={"w-96 border-4 p-4 mb-4 relative"}>
-        <DeleteThoughtButton thought_id={thoughtId}/>
+        { isOwnThought ? <DeleteThoughtButton thought_id={thoughtId}/> : null}
         <div>
           <div className={"text-lg"}>
             <p className={"font-bold inline-block mr-1"}>{thought?.profile?.nickname}</p>
@@ -52,13 +64,15 @@ export default function ThoughtPage
           <div className={"text-xl mt-2 mb-4"}>
             {thought.text_content}
           </div>
+
           <div className={"border-t-4 mt-4 mb-4"}/>
-          <div className={"mb-2"}>
+
+          <div className={"mb-0"}>
             {createdAtDate ? createdAtDate: null}
           </div>
-          <div>
-            <p className={"inline-block mr-4"}>0 Replies</p>
-            <p className={"inline-block"}>0 Likes</p>
+          <div className={"flex flex-row w-full"}>
+            <div className={"w-[20%]"}>{replyCount == 1 ? replyCount + " Reply" : replyCount + " Replies"}</div>
+            <div className={""}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
           </div>
         </div>
       </div>
@@ -66,7 +80,7 @@ export default function ThoughtPage
       <div>
         this is where replies would be!
         {replies?.map((reply) => (
-          <ReplyCard key={reply.id} reply={reply} />
+          <ReplyCard key={reply.id} reply={reply}/>
         ))}
       </div>
     </div>

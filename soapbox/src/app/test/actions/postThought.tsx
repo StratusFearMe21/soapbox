@@ -7,14 +7,17 @@ export async function PostThought(formData: FormData) {
   const supabase = await createClient();
   const textContent = formData.get("textContent");
 
-  const { data, error } = await supabase.auth.getClaims();
-  if (data?.claims?.user_metadata && textContent) {
-    const user_id: string = data.claims.user_metadata.sub.toString();
+  // security tested and workz as intended
+  // works once again 11/24
+  const { data: {user}, error } = await supabase.auth.getUser();
+  if (user && textContent) {
+    const user_id: string = user.id.toString();
     const { error } = await supabase.from('thoughts_test').insert({ text_content: textContent.toString(), user_id: user_id });
     if (error) throw error;
   } else {
     throw error;
   }
 
-  revalidatePath('/test')
+  //TODO refresh current page
+  //revalidatePath('/test')
 }
