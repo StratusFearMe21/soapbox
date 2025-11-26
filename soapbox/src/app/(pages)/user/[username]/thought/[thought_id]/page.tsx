@@ -7,6 +7,7 @@ import { Thought } from "@/app/components/thought";
 import ReplyCard from "@/app/components/reply-card";
 import formatDate from "@/app/utils/formatDate";
 import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
+import {getFullThought} from "@/app/user/actions/getFullThought";
 
 export default function ThoughtPage
 (
@@ -26,17 +27,16 @@ export default function ThoughtPage
     const fetchThought = async () => {
       const {username} = await params;
       const {thought_id} = await params;
-      const thought = await getFullThoughtInfo(username, thought_id);
+      const thought = await getFullThought(username, thought_id);
 
       if (thought) {
         //const replies = await getReplies(thought_id);
         setThoughtId(thought_id);
-        setThought(thought.thought);
-        setCreatedAtDate(formatDate(thought.thought.created_at));
-        setReplyCount(thought.replyCount);
-        setLikeCount(thought.likeCount);
-        //TODO fix replies
-        //setReplies(thought.replies);
+        setThought(thought);
+        setCreatedAtDate(formatDate(thought.created_at));
+        setReplyCount(thought.reply_count[0].count);
+        setLikeCount(thought.like_count[0].count);
+        setReplies(thought.replies);
         setLoading(false);
       } else {
         setLoading(false);
@@ -44,7 +44,7 @@ export default function ThoughtPage
 
       // delete button visibility
       const auth_id = await getCurrentUserId();
-      if (auth_id == thought?.thought.user_id) setIsOwnThought(true);
+      if (auth_id == thought?.user_id) setIsOwnThought(true);
     }
 
     fetchThought();

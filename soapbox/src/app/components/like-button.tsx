@@ -32,7 +32,7 @@ export default function LikeButton({thought_id, is_liked, likeChangeFunction}: L
 
   return (
     <button
-      className={"absolute bottom-0 right-0 m-4 border-2 p-2 hover:bg-slate-800 active:bg-slate-700 z-20"}
+      className={"absolute bottom-0 right-0 m-4 border-2 p-2 hover:bg-slate-800 active:bg-slate-700"}
       disabled={isLoading}
       onClick={handleLikeClick}
     >

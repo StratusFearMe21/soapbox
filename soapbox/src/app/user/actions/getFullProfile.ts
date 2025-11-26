@@ -3,7 +3,6 @@
 import {Profile, Thought} from "@/app/components/thought";
 import {getUserPostCount, getUserPosts, getUserProfile} from "@/app/user/actions/profileActions";
 import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
-import {getProfileThoughts} from "@/app/user/actions/getUserThoughts";
 import {createClient} from "@/app/utils/supabase/server";
 
 export interface FullProfile {
