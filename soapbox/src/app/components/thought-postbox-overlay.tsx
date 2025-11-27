@@ -49,12 +49,11 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
   }
 
   const onConfirmDialog = async() => {
-    //TODO wipe textContent and hide the whole window
     setTextContent("");
 
     if (isConfirmShown) {
-      setIsConfirmShown(false);
       onClose();
+      setIsConfirmShown(false);
     }
   }
 
