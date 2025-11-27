@@ -89,7 +89,7 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
         <div className={"w-full h-full flex flex-col items-center justify-center [&>*]:m-2"}>
           <Label className={"text-lg font-bold"}>test postbox TITLE!!!</Label>
           <Textarea className={" h-[60%] w-[90%] resize-none"} onChange={handleChangeText} placeholder={"write your thought here!!!!! :D"} />
-          <Button className={""} onClick={() => {console.log(textContent)}}>Post Thought</Button>
+          <Button className={""} onClick={() => {console.log(textContent)}}>Post Thought (currently non-functional)</Button>
         </div>
       </Card>
     </div>
