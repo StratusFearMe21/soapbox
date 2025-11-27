@@ -43,8 +43,10 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
   const [ textContent, setTextContent ] = useState("");
 
   const onOpenConfirmDialog = async () => {
-    if (!isConfirmShown) {
+    if (textContent.length > 0 && !isConfirmShown) {
       setIsConfirmShown(true);
+    } else {
+      onClose();
     }
   }
 
