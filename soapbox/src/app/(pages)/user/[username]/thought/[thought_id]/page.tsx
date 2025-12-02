@@ -30,21 +30,19 @@ export default function ThoughtPage
       const thought = await getFullThought(username, thought_id);
 
       if (thought) {
-        //const replies = await getReplies(thought_id);
         setThoughtId(thought_id);
         setThought(thought);
         setCreatedAtDate(formatDate(thought.created_at));
         setReplyCount(thought.reply_count[0].count);
         setLikeCount(thought.like_count[0].count);
         setReplies(thought.replies);
-        setLoading(false);
-      } else {
-        setLoading(false);
       }
 
       // delete button visibility
       const auth_id = await getCurrentUserId();
       if (auth_id == thought?.user_id) setIsOwnThought(true);
+      // finally make it all visible :D
+      setLoading(false);
     }
 
     fetchThought();
