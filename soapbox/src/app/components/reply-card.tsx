@@ -8,13 +8,14 @@ interface ReplyProp {
 }
 
 export default function ReplyCard({ reply }: ReplyProp) {
-  const [ likeCount, setLikeCount] = useState<number>(0)
+  const [ likeCount, setLikeCount ] = useState<number>(0)
   useEffect(() => {
     const fetchInteractionCount = async () => {
       //const { likeCount } = await getInteractionsCount(reply.id)
-      setLikeCount(likeCount)
+      setLikeCount(likeCount => likeCount + 1)
     }
-    fetchInteractionCount()
+
+    fetchInteractionCount();
   }, [reply.id])
 
   return (
