@@ -22,10 +22,11 @@ function ConfirmCloseDialog({isShown, onConfirm, onCancel} : ConfirmCloseDialogP
     <div
       className={
         "absolute h-screen w-screen top-0 left-0 " +
-        "flex flex-col justify-center items-center z-20"
+        "flex flex-col justify-center items-center z-20 " +
+        "animate-in fade-in"
       }
     >
-      <div className={"absolute bg-background opacity-50 h-full w-full "} onClick={onCancel}></div>
+      <div className={"absolute h-full w-full "} onClick={onCancel}></div>
 
       <Card className={"relative h-[15%] w-[27%] flex flex-col items-center justify-center [&>*]:m-2"}>
         <Label className={"text-lg text-center pl-2 pr-2"}>Are you sure you want to discard this post?</Label>
@@ -70,26 +71,40 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
     setTextContent(e.target.value)
   }
 
+  const onPostThought = async () => {
+
+  }
+
   return isShown ? (
     <div
       className={
         "absolute top-0 left-0 h-screen w-screen " +
-        "flex flex-col items-center justify-center z-10 "
+        "flex flex-col items-center justify-center z-10 " +
+        "animate-in fade-in"
       }
     >
       <ConfirmCloseDialog isShown={isConfirmShown} onConfirm={onConfirmDialog} onCancel={onCancelDialog} />
 
-      <div className={"absolute bg-background opacity-50 h-full w-full "} onClick={onOpenConfirmDialog}></div>
+      <div className={"absolute bg-background opacity-50 h-full w-full"} onClick={onOpenConfirmDialog}></div>
 
-      <Card className={"relative w-[35%] h-[40%] p-8"}>
-        <Button className={"absolute m-4 w-8 h-8 top-0 right-0"} onClick={onOpenConfirmDialog}>
+      <Card className={"relative w-[35%] h-[40%] p-8 "}>
+        <Button className={"absolute m-4 w-8 h-8 top-0 right-0"} onClick={onOpenConfirmDialog} variant={"base_button"}>
           <X />
         </Button>
 
         <div className={"w-full h-full flex flex-col items-center justify-center [&>*]:m-2"}>
           <Label className={"text-lg font-bold"}>test postbox TITLE!!!</Label>
-          <Textarea className={" h-[60%] w-[90%] resize-none"} onChange={handleChangeText} placeholder={"write your thought here!!!!! :D"} />
-          <Button className={""} onClick={() => {console.log(textContent)}}>Post Thought (currently non-functional)</Button>
+          <Textarea
+            className={"h-[60%] w-[90%] resize-none"}
+            onChange={(e) => (setTextContent(e.target.value))}
+            placeholder={"write your thought here!!!!! :D"}
+          />
+          <Button
+            variant={"base_button"}
+            onClick={onPostThought}
+          >
+            Post Thought
+          </Button>
         </div>
       </Card>
     </div>

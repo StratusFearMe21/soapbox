@@ -10,7 +10,7 @@ import {Badge} from "@/app/components/ui/badge";
 import {Card} from "@/app/components/ui/card";
 import {Label} from "@/app/components/ui/label";
 
-const badgeClass = "size-4 pt-4 pb-4 w-full font-bold hover:bg-black/20 m-2 text-sm"
+const badgeClass = "size-4 pt-4 pb-4 w-full font-bold rounded-lg m-2 text-sm"
 const transitionGroup = "transition-transform duration-500 translate-x-[-150%] group-hover:translate-x-0"
 
 export default function Navbar() {
@@ -62,27 +62,31 @@ export default function Navbar() {
         "flex flex-col border-4 w-full justify-center items-center p-2"
       }>
 
-        <Badge className={badgeClass + " rounded-lg"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
           <Link href={"/feed"}>
             Feed
           </Link>
-        </Badge>
+        </Button>
 
-        <Badge className={badgeClass + " rounded-lg"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
           <Link href={"/test"}>
             Test Page
           </Link>
-        </Badge>
+        </Button>
 
-        <Badge className={badgeClass + " rounded-lg"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
           <Link href={profileLink}>
             {profileName}
           </Link>
-        </Badge>
+        </Button>
 
         <div className={"border-4 w-full m-1"}></div>
 
-        <Button className={badgeClass + " size-4 ease-in-out hover:w-full transition-all duration-200 group"} onClick={onOpenThoughtPostBox}>
+        <Button
+          className={badgeClass + " size-4 ease-in-out hover:w-full text-link transition-all duration-200 group"}
+          variant={"base_button"}
+          onClick={onOpenThoughtPostBox}
+        >
           <SquarePen className={"group-hover:opacity-0 transition-discrete duration-300"} strokeWidth={2.8}/>
           <Label className={"font-bold absolute opacity-0 group-hover:opacity-100 transition-opacity duration-75 group-hover:duration-700"}>Create Thought</Label>
         </Button>
