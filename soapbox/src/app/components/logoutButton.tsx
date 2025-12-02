@@ -8,7 +8,7 @@ export default function LogoutButton() {
   const logout = async() => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    redirect("/login");
+    redirect("/auth/login");
   }
 
   return (

@@ -28,7 +28,7 @@ export default function Navbar() {
         setProfileLink("/user/" + username);
       } else {
         setProfileName("Login")
-        setProfileLink("/login");
+        setProfileLink("/auth/login");
       }
     }
 
