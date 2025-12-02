@@ -50,8 +50,9 @@ steps:
     #   - /home/ubuntu/supabase-project/volumes/site:/site
   
   build:
-    # environment:
-      # PAGES_BASE_PATH: ""
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL: http://soapbox.lol
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzYyODQ0NDAwLCJleHAiOjE5MjA2MTA4MDB9.lFY_e-mpOEs6eQGQkl6L5B-8OGOhlWFgxohxDVN0qq4
       # PAGES_OUTPUT: build/dist
     depends_on:
       - install-dependencies
