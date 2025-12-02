@@ -1,4 +1,4 @@
-import LoginButton from "@/app/components/loginButton";
+import LoginButton from "@/app/components/auth/loginButton";
 
 export default function Unauthorized() {
   return (
