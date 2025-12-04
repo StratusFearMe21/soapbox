@@ -94,10 +94,10 @@ export function ThoughtPostBoxOverlay({isShown, onClose}: ThoughtPostBoxOverlayP
     >
       <ConfirmCloseDialog isShown={isConfirmShown} onConfirm={onConfirmDialog} onCancel={onCancelDialog} />
 
-      <div className={"absolute bg-background opacity-50 h-full w-full"} onClick={onOpenConfirmDialog}></div>
+      <div className={"absolute bg-black/60 backdrop-blur-sm h-full w-full"} onClick={onOpenConfirmDialog}></div>
 
-      <Card className={"relative w-[35%] h-[40%] p-8 "}>
-        <Button className={"absolute m-4 w-8 h-8 top-0 right-0"} onClick={onOpenConfirmDialog} variant={"base_button"}>
+      <Card className={"relative w-[35%] h-[40%] p-8 bg-card"}>
+        <Button className={"absolute m-4 w-8 h-8 top-0 right-0 rounded-full"} onClick={onOpenConfirmDialog} variant={"ghost"}>
           <X />
         </Button>
 

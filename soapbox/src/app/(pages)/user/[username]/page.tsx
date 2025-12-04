@@ -77,11 +77,11 @@ export default function UserPage
   return loading ? (
     <div></div>
   ) : (profile) ? (
-    <div className="w-screen h-fit flex flex-col items-center overflow-y-auto overflow-x-hidden">
-      {isOwnProfile ? <Link className={"fixed bottom-0 left-0 border-4 p-4 m-4 font-bold"} href={"/user/edit"}>Edit Profile</Link> : null}
+    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
+      {isOwnProfile ? <Link className={"fixed bottom-4 left-4 glass px-6 py-3 rounded-full font-bold hover:bg-white/20 transition-all z-50"} href={"/user/edit"}>Edit Profile</Link> : null}
 
-      <div className={"border-4"}>
-        <div className="border-b-4 w-96 p-4">
+      <div className={"flex flex-col items-center w-full max-w-2xl px-4"}>
+        <div className="w-full p-6 mb-8 glass rounded-2xl text-center">
           <p className={styles.nickname}>{profile.nickname}</p>
           <p className={styles.username}>@{profile.username}</p>
           <p className={styles.bio}>{profile.bio ? profile.bio : null}</p>
@@ -91,7 +91,7 @@ export default function UserPage
 
         <p className={"text-center font-bold"}></p>
 
-        <div>
+        <div className="w-full flex flex-col items-center gap-4">
           {profile.thoughts?.map((thought) => (
             <ThoughtCard key={thought.id} thought={thought} nickname={ profile.nickname ? profile.nickname : '' } username={ profile.username ? profile.username : '' } />
           ))}

@@ -35,7 +35,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
   //<div className={"absolute top-0 left-0 right-0 bottom-0 opacity-0 bg-slate-950 m-0 p-0 z-10 hover:opacity-30"}></div>
 
   return (
-    <div className={"w-96 border-t-4 p-4 relative hover:bg-slate-950"}>
+    <div className={"w-96 p-6 mb-4 relative glass rounded-2xl transition-all duration-300 hover:scale-[1.02]"}>
       <Link href={"/user/" + username + "/thought/" + thought.id} className={"w-full h-full"}>
         <div className={"text-sm"}>
           <p className={"inline-block font-bold mr-1"}>

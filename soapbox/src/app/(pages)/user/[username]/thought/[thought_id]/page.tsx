@@ -51,32 +51,31 @@ export default function ThoughtPage
   return loading ? (
     <div></div>
   ) : (thought) ? (
-    <div className={"flex flex-col justify-center items-center w-screen h-screen"}>
-      <div className={"w-96 border-4 p-4 mb-4 relative"}>
+    <div className={"flex flex-col items-center w-screen min-h-screen pt-20 pb-20"}>
+      <div className={"w-full max-w-lg glass p-8 mb-6 relative rounded-2xl"}>
         { isOwnThought ? <DeleteThoughtButton thought_id={thoughtId}/> : null}
         <div>
           <div className={"text-lg"}>
-            <p className={"font-bold inline-block mr-1"}>{thought?.profile?.nickname}</p>
-            <p className={"inline-block"}>@{thought?.profile?.username}</p>
+            <p className={"font-bold inline-block mr-1 text-white"}>{thought?.profile?.nickname}</p>
+            <p className={"inline-block text-white/70"}>@{thought?.profile?.username}</p>
           </div>
-          <div className={"text-xl mt-2 mb-4"}>
+          <div className={"text-xl mt-4 mb-6 leading-relaxed"}>
             {thought.text_content}
           </div>
 
-          <div className={"border-t-4 mt-4 mb-4"}/>
+          <div className={"h-px bg-white/20 w-full my-4"}/>
 
-          <div className={"mb-0"}>
+          <div className={"mb-2 text-sm text-white/60"}>
             {createdAtDate ? createdAtDate: null}
           </div>
-          <div className={"flex flex-row w-full"}>
-            <div className={"w-[20%]"}>{replyCount == 1 ? replyCount + " Reply" : replyCount + " Replies"}</div>
+          <div className={"flex flex-row w-full text-sm font-medium"}>
+            <div className={"mr-6"}>{replyCount == 1 ? replyCount + " Reply" : replyCount + " Replies"}</div>
             <div className={""}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
           </div>
         </div>
       </div>
 
-      <div>
-        this is where replies would be!
+      <div className={"w-full max-w-lg flex flex-col gap-4"}>
         {replies?.map((reply) => (
           <ReplyCard key={reply.id} reply={reply}/>
         ))}
