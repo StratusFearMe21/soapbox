@@ -46,6 +46,8 @@ export async function getProfile(username: string) {
     .eq('username', username)
     // filters to full thoughts (not replies)
     .is('thoughts.parent_thought', null)
+    // sorts thoughts by created_at (newest first)
+    .order('created_at', { referencedTable: 'thoughts', ascending: false })
     .single();
 
   if (error) console.log(error);
