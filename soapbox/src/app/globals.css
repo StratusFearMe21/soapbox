@@ -101,12 +101,6 @@
 
     --radius: 1rem;
 
-    /* Charts can stay or be adjusted */
-    --chart-1: hsl(199 89% 48%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
   }
 
   .dark {
