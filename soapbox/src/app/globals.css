@@ -66,62 +66,67 @@
 
 @layer base {
   :root {
-    --background: var(--color-cyan-400);
-    --foreground: 0 0% 3.9%;
-    --card: var(--color-sky-100); /* card itself */
-    --card-foreground: var(--color-cyan-700); /* text */
-    --card-secondary-foreground: hsl(211 100% 88.2%);
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: var(--color-cyan-400); /*primary button*/
-    --primary-foreground: var(--color-cyan-700);
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: #0096c8;
-    --accent: var(--color-cyan-200);
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: var(--color-sky-700);
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --link: hsl(211 100% 88.2%);
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: var(--color-sky-950);
-    --foreground: 0 0% 98%;
-    --card: var(--color-sky-900);
-    --card-foreground: var(--color-blue-300);
-    --card-secondary-foreground: hsl(211 100% 88.2%);
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: var(--color-sky-950); /*button*/
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: hsl(0 0% 14.9%);
-    --muted-foreground: hsl(191 29.7% 74.3%);
-    --accent: var(--color-sky-700);
-    --accent-foreground: 0 0% 98%;
+    /* Aquatic Theme */
+    --background: 215 100% 6%;
+    --foreground: 210 40% 98%;
+    
+    --card: 0 0% 100%; /* White base for glass */
+    --card-foreground: 210 40% 98%;
+    --card-secondary-foreground: 210 40% 90%;
+    
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 199 89% 48%; /* Bright Cyan */
+    --primary-foreground: 222.2 47.4% 11.2%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+    
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: var(--color-sky-700);
-    --input: var(--color-blue-300);
-    --ring: 0 0% 83.1%;
-    --link: hsl(211 100% 88.2%);
-    --chart-1: 220 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 215 30% 50%;
+    --input: 215 30% 50%;
+    --ring: 199 89% 48%;
+    
+    --radius: 1rem;
+    
+    /* Charts can stay or be adjusted */
+    --chart-1: 199 89% 48%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+
+  .dark {
+    --background: 215 100% 6%;
+    --foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 40% 98%;
+    --card-secondary-foreground: 210 40% 90%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 199 89% 48%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 199 89% 48%;
   }
 }
 
@@ -132,5 +137,35 @@
 
   body {
     @apply bg-background text-foreground;
+    background: radial-gradient(circle at top center, #1e40af, #0f172a);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  
+  /* Global Glassmorphism Override for Cards */
+  .bg-card {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Navbar Glass */
+  nav {
+     background-color: rgba(15, 23, 42, 0.6) !important;
+     backdrop-filter: blur(10px);
+     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .glass {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+  
+  .glass:hover {
+    background-color: rgba(255, 255, 255, 0.15);
   }
 }

@@ -19,7 +19,7 @@ export default function ReplyCard({ reply }: ReplyProp) {
   }, [reply.id])
 
   return (
-    <div className={"border-4 p-4 w-96"}>
+    <div className={"glass p-4 w-96 mb-2 rounded-xl"}>
       <p className={"inline-block mr-1 font-bold"}>{reply.profile?.nickname}</p>
       <p className={"inline-block"}>@{reply.profile?.username}</p>
       <p className={"mt-1 mb-1"}>{reply.text_content}</p>

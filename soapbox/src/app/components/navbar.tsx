@@ -6,12 +6,10 @@ import {createClient} from "@/app/utils/supabase/client";
 import {Button} from "@/app/components/ui/button";
 import {ThoughtPostBoxOverlay} from "@/app/components/thought-postbox-overlay";
 import {SquarePen} from "lucide-react";
-import {Badge} from "@/app/components/ui/badge";
 import {Card} from "@/app/components/ui/card";
 import {Label} from "@/app/components/ui/label";
 
 const badgeClass = "size-4 pt-4 pb-4 w-full font-bold rounded-lg m-2 text-sm"
-const transitionGroup = "transition-transform duration-500 translate-x-[-150%] group-hover:translate-x-0"
 
 export default function Navbar() {
   const [ profileName, setProfileName ] = useState('My Profile');
@@ -30,6 +28,7 @@ export default function Navbar() {
         setProfileName("Login")
         setProfileLink("/auth/login");
       }
+      if (error) console.log(error);
     }
 
     fetchProfileLink();
@@ -55,36 +54,34 @@ export default function Navbar() {
     >
       <ThoughtPostBoxOverlay
         isShown={isShown}
-        onOpen={onOpenThoughtPostBox}
         onClose={onCloseThoughtPostBox}
       />
       <Card className={
-        "flex flex-col border-4 w-full justify-center items-center p-2"
+        "flex flex-col w-full justify-center items-center p-2 border-none shadow-none bg-transparent"
       }>
-
-        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
           <Link href={"/feed"}>
             Feed
           </Link>
         </Button>
 
-        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
           <Link href={"/test"}>
             Test Page
           </Link>
         </Button>
 
-        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
           <Link href={profileLink}>
             {profileName}
           </Link>
         </Button>
 
-        <div className={"border-4 w-full m-1"}></div>
+        <div className={"border-b border-white/10 w-full m-1"}></div>
 
         <Button
-          className={badgeClass + " size-4 ease-in-out hover:w-full text-link transition-all duration-200 group"}
-          variant={"base_button"}
+          className={badgeClass + " size-4 ease-in-out hover:w-full text-link transition-all duration-200 group bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"}
+          variant={"ghost"}
           onClick={onOpenThoughtPostBox}
         >
           <SquarePen className={"group-hover:opacity-0 transition-discrete duration-300"} strokeWidth={2.8}/>

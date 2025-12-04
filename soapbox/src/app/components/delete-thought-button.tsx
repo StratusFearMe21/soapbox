@@ -1,6 +1,7 @@
 "use client";
 
 import {deleteThought} from "@/app/user/actions/postActions";
+import {redirect} from "next/navigation";
 
 interface DeleteThoughtProps {
   thought_id: string,
@@ -10,6 +11,9 @@ export default function DeleteThoughtButton ( { thought_id } : DeleteThoughtProp
   const handleDeleteThought = async (formData: FormData) => {
     const thought_id = formData.get("thought_id")?.toString();
     if (thought_id) await deleteThought(thought_id);
+
+    const regex = new RegExp(`/thought/` + thought_id);
+    redirect(location.toString().replace(regex, ''));
   }
 
   return (
