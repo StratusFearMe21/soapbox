@@ -1024,3 +1024,5 @@
 /.idea/soapbox.iml
 /.idea/vcs.xml
 /node_modules/
+**/.DS_Store
+/.idea
