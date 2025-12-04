@@ -55,6 +55,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -67,66 +68,68 @@
 @layer base {
   :root {
     /* Aquatic Theme */
-    --background: 215 100% 6%;
-    --foreground: 210 40% 98%;
-    
-    --card: 0 0% 100%; /* White base for glass */
-    --card-foreground: 210 40% 98%;
-    --card-secondary-foreground: 210 40% 90%;
-    
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 199 89% 48%; /* Bright Cyan */
-    --primary-foreground: 222.2 47.4% 11.2%;
-    
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --accent: 199 89% 48%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 215 30% 50%;
-    --input: 215 30% 50%;
-    --ring: 199 89% 48%;
-    
+    --background: hsl(215 100% 6%);
+    --foreground: hsl(210 40% 98%);
+
+    --card: hsl(0 0% 100%);
+    /* White base for glass */
+    --card-foreground: hsl(210 40% 98%);
+    --card-secondary-foreground: hsl(210 40% 90%);
+
+    --popover: hsl(222.2 84% 4.9%);
+    --popover-foreground: hsl(210 40% 98%);
+
+    --primary: hsl(199 89% 48%);
+    /* Bright Cyan */
+    --primary-foreground: hsl(222.2 47.4% 11.2%);
+
+    --secondary: hsl(217.2 32.6% 17.5%);
+    --secondary-foreground: hsl(210 40% 98%);
+
+    --muted: hsl(217.2 32.6% 17.5%);
+    --muted-foreground: hsl(215 20.2% 65.1%);
+
+    --accent: hsl(199 89% 48%);
+    --accent-foreground: hsl(210 40% 98%);
+
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(210 40% 98%);
+
+    --border: hsl(215 30% 50%);
+    --input: hsl(215 30% 50%);
+    --ring: hsl(199 89% 48%);
+
     --radius: 1rem;
-    
+
     /* Charts can stay or be adjusted */
-    --chart-1: 199 89% 48%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: hsl(199 89% 48%);
+    --chart-2: hsl(160 60% 45%);
+    --chart-3: hsl(30 80% 55%);
+    --chart-4: hsl(280 65% 60%);
+    --chart-5: hsl(340 75% 55%);
   }
 
   .dark {
-    --background: 215 100% 6%;
-    --foreground: 210 40% 98%;
-    --card: 0 0% 100%;
-    --card-foreground: 210 40% 98%;
-    --card-secondary-foreground: 210 40% 90%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 199 89% 48%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 199 89% 48%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 199 89% 48%;
+    --background: hsl(215 100% 6%);
+    --foreground: hsl(210 40% 98%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(210 40% 98%);
+    --card-secondary-foreground: hsl(210 40% 90%);
+    --popover: hsl(222.2 84% 4.9%);
+    --popover-foreground: hsl(210 40% 98%);
+    --primary: hsl(199 89% 48%);
+    --primary-foreground: hsl(222.2 47.4% 11.2%);
+    --secondary: hsl(217.2 32.6% 17.5%);
+    --secondary-foreground: hsl(210 40% 98%);
+    --muted: hsl(217.2 32.6% 17.5%);
+    --muted-foreground: hsl(215 20.2% 65.1%);
+    --accent: hsl(199 89% 48%);
+    --accent-foreground: hsl(210 40% 98%);
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(210 40% 98%);
+    --border: hsl(217.2 32.6% 17.5%);
+    --input: hsl(217.2 32.6% 17.5%);
+    --ring: hsl(199 89% 48%);
   }
 }
 
@@ -141,7 +144,7 @@
     background-attachment: fixed;
     min-height: 100vh;
   }
-  
+
   /* Global Glassmorphism Override for Cards */
   .bg-card {
     background-color: rgba(255, 255, 255, 0.1) !important;
@@ -149,14 +152,14 @@
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
-  
+
   /* Navbar Glass */
   nav {
-     background-color: rgba(15, 23, 42, 0.6) !important;
-     backdrop-filter: blur(10px);
-     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
-  
+
   .glass {
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
@@ -164,7 +167,7 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     color: white;
   }
-  
+
   .glass:hover {
     background-color: rgba(255, 255, 255, 0.15);
   }
