@@ -6,12 +6,10 @@ import {createClient} from "@/app/utils/supabase/client";
 import {Button} from "@/app/components/ui/button";
 import {ThoughtPostBoxOverlay} from "@/app/components/thought-postbox-overlay";
 import {SquarePen} from "lucide-react";
-import {Badge} from "@/app/components/ui/badge";
 import {Card} from "@/app/components/ui/card";
 import {Label} from "@/app/components/ui/label";
 
 const badgeClass = "size-4 pt-4 pb-4 w-full font-bold rounded-lg m-2 text-sm"
-const transitionGroup = "transition-transform duration-500 translate-x-[-150%] group-hover:translate-x-0"
 
 export default function Navbar() {
   const [ profileName, setProfileName ] = useState('My Profile');
@@ -30,6 +28,7 @@ export default function Navbar() {
         setProfileName("Login")
         setProfileLink("/auth/login");
       }
+      if (error) console.log(error);
     }
 
     fetchProfileLink();
@@ -55,7 +54,6 @@ export default function Navbar() {
     >
       <ThoughtPostBoxOverlay
         isShown={isShown}
-        onOpen={onOpenThoughtPostBox}
         onClose={onCloseThoughtPostBox}
       />
       <Card className={

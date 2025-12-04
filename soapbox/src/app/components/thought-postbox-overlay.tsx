@@ -1,13 +1,14 @@
-import {ChangeEvent, useState} from "react";
+import { useState } from "react";
 import {X} from 'lucide-react';
 import {Card} from "@/app/components/ui/card";
 import {Button} from "@/app/components/ui/button";
 import {Textarea} from "@/app/components/ui/textarea";
 import {Label} from "@/app/components/ui/label";
+import {postThought} from "@/app/user/actions/postThought";
+import {redirect} from "next/navigation";
 
 interface ThoughtPostBoxOverlayProps {
   isShown: boolean;
-  onOpen: () => void;
   onClose: () => void;
 }
 
@@ -39,9 +40,10 @@ function ConfirmCloseDialog({isShown, onConfirm, onCancel} : ConfirmCloseDialogP
   ) : null;
 }
 
-export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBoxOverlayProps ) {
+export function ThoughtPostBoxOverlay({isShown, onClose}: ThoughtPostBoxOverlayProps ) {
   const [ isConfirmShown, setIsConfirmShown ] = useState(false);
   const [ textContent, setTextContent ] = useState("");
+  const [ error, setError ] = useState("");
 
   const onOpenConfirmDialog = async () => {
     if (textContent.length > 0 && !isConfirmShown) {
@@ -53,6 +55,7 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
 
   const onConfirmDialog = async() => {
     setTextContent("");
+    setError("");
 
     if (isConfirmShown) {
       onClose();
@@ -67,12 +70,18 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
     }
   }
 
-  const handleChangeText = async (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setTextContent(e.target.value)
-  }
-
   const onPostThought = async () => {
-
+    if (textContent.length > 0 && !isConfirmShown) {
+      const error = await postThought(textContent)
+      if (error) {
+        if (error.code == '42501') setError("Error when posting!");
+      } else {
+        setTextContent("");
+        setError("");
+        onClose();
+        redirect(location.toString());
+      }
+    }
   }
 
   return isShown ? (
@@ -102,9 +111,11 @@ export function ThoughtPostBoxOverlay({isShown, onOpen, onClose}: ThoughtPostBox
           <Button
             variant={"base_button"}
             onClick={onPostThought}
+            disabled={textContent.length == 0}
           >
             Post Thought
           </Button>
+          {error ? <div className="text-sm text-red-500">{error}</div> : null}
         </div>
       </Card>
     </div>
