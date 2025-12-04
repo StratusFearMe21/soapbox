@@ -32,11 +32,11 @@ export default function LikeButton({thought_id, is_liked, likeChangeFunction}: L
 
   return (
     <button
-      className={"absolute bottom-0 right-0 m-4 border-2 p-2 hover:bg-slate-800 active:bg-slate-700"}
+      className={"absolute bottom-0 right-0 m-4 border border-white/30 rounded-full px-4 py-1 glass hover:bg-white/20 active:bg-white/30 transition-all text-xs font-semibold uppercase tracking-wider"}
       disabled={isLoading}
       onClick={handleLikeClick}
     >
-      {isLiked ? "Unlike Test" : "Like Test"}
+      {isLiked ? "Unlike" : "Like"}
     </button>
   )
 }

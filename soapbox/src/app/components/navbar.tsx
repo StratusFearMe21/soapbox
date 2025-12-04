@@ -59,32 +59,31 @@ export default function Navbar() {
         onClose={onCloseThoughtPostBox}
       />
       <Card className={
-        "flex flex-col border-4 w-full justify-center items-center p-2"
+        "flex flex-col w-full justify-center items-center p-2 border-none shadow-none bg-transparent"
       }>
-
-        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
           <Link href={"/feed"}>
             Feed
           </Link>
         </Button>
 
-        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
           <Link href={"/test"}>
             Test Page
           </Link>
         </Button>
 
-        <Button className={badgeClass + " rounded-lg text-link"} variant={"base_button"} asChild>
+        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
           <Link href={profileLink}>
             {profileName}
           </Link>
         </Button>
 
-        <div className={"border-4 w-full m-1"}></div>
+        <div className={"border-b border-white/10 w-full m-1"}></div>
 
         <Button
-          className={badgeClass + " size-4 ease-in-out hover:w-full text-link transition-all duration-200 group"}
-          variant={"base_button"}
+          className={badgeClass + " size-4 ease-in-out hover:w-full text-link transition-all duration-200 group bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"}
+          variant={"ghost"}
           onClick={onOpenThoughtPostBox}
         >
           <SquarePen className={"group-hover:opacity-0 transition-discrete duration-300"} strokeWidth={2.8}/>
