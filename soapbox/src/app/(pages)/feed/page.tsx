@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import styles from "../../styles.module.css";
+import styles from "../styles.module.css";
 import ThoughtCard from "@/app/components/thought-card";
 import {Profile} from "@/app/components/thought"
 import {useEffect, useState} from "react";
