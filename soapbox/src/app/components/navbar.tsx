@@ -9,29 +9,6 @@ import {ShowerHead, User, SquarePen, UserCog, LogOut} from "lucide-react";
 import {Card} from "@/app/components/ui/card";
 import {Label} from "@/app/components/ui/label";
 
-const badgeClass = "  size-4  hover:w-full    bg-white/10  border "
-
-{/*
-        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
-          <Link href={"/feed"}>
-            Feed
-          </Link>
-        </Button>
-
-        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
-          <Link href={"/test"}>
-            Test Page
-          </Link>
-        </Button>
-
-        <Button className={badgeClass + " rounded-lg text-link bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm"} variant={"ghost"} asChild>
-          <Link href={profileLink}>
-            {profileName}
-          </Link>
-        </Button>
-      */
-}
-
 export default function Navbar() {
   const [ profileName, setProfileName ] = useState('My Profile');
   const [ profileLink, setProfileLink ] = useState('/login');
