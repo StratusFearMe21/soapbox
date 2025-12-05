@@ -4,7 +4,7 @@ import {Card} from "@/app/components/ui/card";
 import {Button} from "@/app/components/ui/button";
 import {Textarea} from "@/app/components/ui/textarea";
 import {Label} from "@/app/components/ui/label";
-import {postThought} from "@/app/user/actions/postThought";
+import {postThought} from "@/app/utils/postThought";
 import {redirect} from "next/navigation";
 
 interface ThoughtPostBoxOverlayProps {

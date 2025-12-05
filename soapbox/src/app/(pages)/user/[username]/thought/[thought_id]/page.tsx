@@ -1,6 +1,5 @@
 "use client";
 
-import {getThought, getReplies, getFullThoughtInfo} from "@/app/user/actions/postActions";
 import DeleteThoughtButton from "@/app/components/delete-thought-button";
 import {useEffect, useState} from "react";
 import { Thought } from "@/app/components/thought";
@@ -8,6 +7,7 @@ import ReplyCard from "@/app/components/reply-card";
 import formatDate from "@/app/utils/formatDate";
 import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 import {getFullThought} from "@/app/user/actions/getFullThought";
+import ReplyBox from "@/app/components/reply-box";
 
 export default function ThoughtPage
 (
@@ -51,8 +51,8 @@ export default function ThoughtPage
   return loading ? (
     <div></div>
   ) : (thought) ? (
-    <div className={"flex flex-col items-center w-screen min-h-screen pt-20 pb-20"}>
-      <div className={"w-full max-w-lg glass p-8 mb-6 relative rounded-2xl"}>
+    <div className={"flex flex-col items-center w-screen min-h-screen pt-20 pb-20 gap-4"}>
+      <div className={"w-full max-w-lg glass p-8 relative rounded-2xl"}>
         { isOwnThought ? <DeleteThoughtButton thought_id={thoughtId}/> : null}
         <div>
           <div className={"text-lg"}>
@@ -73,6 +73,10 @@ export default function ThoughtPage
             <div className={""}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
           </div>
         </div>
+      </div>
+
+      <div className={"w-full max-w-md m-0 p-0"}>
+        <ReplyBox thought_id={thoughtId}></ReplyBox>
       </div>
 
       <div className={"w-full max-w-lg flex flex-col gap-4"}>

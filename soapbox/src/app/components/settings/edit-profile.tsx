@@ -62,7 +62,7 @@ export default function EditProfile() {
   return !loading ? (
     <Card className={"flex flex-col"}>
       <CardHeader>
-        <CardTitle className={"text-center text-4xl font-bold"}>Edit Profile</CardTitle>
+        <CardTitle className={"text-center text-2xl"}>Edit Profile</CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
 
