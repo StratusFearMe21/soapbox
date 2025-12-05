@@ -104,13 +104,12 @@ export default function Navbar() {
         <div className={hoverClass}>
           <Button
             className={buttonClass}
-            onClick={() => (console.log("test"))}
             asChild
           >
-            <div>
+            <Link href={"/settings/profile"}>
               <UserCog className={iconClass} strokeWidth={2.8}/>
               <Label className={labelClass}>Edit Profile</Label>
-            </div>
+            </Link>
           </Button>
         </div>
 
@@ -126,6 +125,7 @@ export default function Navbar() {
             </div>
           </Button>
         </div>
+
       </Card>
     </div>
   )
