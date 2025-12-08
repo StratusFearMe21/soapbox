@@ -159,8 +159,8 @@ async fn main() -> eyre::Result<()> {
         .init();
 
     let app = Router::new()
-        .route("/api/feed", get(feed))
-        .route("/api/new_user", post(new_user))
+        .route("/rs/api/feed", get(feed))
+        .route("/rs/api/new_user", post(new_user))
         .fallback_service(
             ServeDir::new("frontend/dist")
                 .precompressed_gzip()
