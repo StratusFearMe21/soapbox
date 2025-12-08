@@ -8,6 +8,8 @@ import {ThoughtPostBoxOverlay} from "@/app/components/thought-postbox-overlay";
 import {ShowerHead, User, SquarePen, UserCog, LogOut} from "lucide-react";
 import {Card} from "@/app/components/ui/card";
 import {Label} from "@/app/components/ui/label";
+import {getCurrentUsername} from "@/app/utils/getCurrentUserId";
+import {redirect} from "next/navigation";
 
 export default function Navbar() {
   const [ profileName, setProfileName ] = useState('My Profile');
@@ -15,18 +17,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchProfileLink = async () => {
-      const supabase = createClient();
-      const {data, error} = await supabase.auth.getClaims();
-      const user_id = data?.claims?.user_metadata?.sub;
-      if (user_id) {
-        const {data: username} = await supabase
-          .rpc('get_username_from_id', { user_id_input: user_id })
+      const username = await getCurrentUsername()
+      if (username) {
         setProfileLink("/user/" + username);
       } else {
         setProfileName("Login")
         setProfileLink("/auth/login");
       }
-      if (error) console.log(error);
     }
 
     fetchProfileLink();
@@ -44,6 +41,12 @@ export default function Navbar() {
     if (isShown) {
       setIsShown(false);
     }
+  }
+
+  const onSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    redirect("/auth/login");
   }
 
   const hoverClass = "group flex flex-col items-center justify-center w-full cursor-pointer [&>*>*]:cursor-pointer m-2";
@@ -104,20 +107,19 @@ export default function Navbar() {
         <div className={hoverClass}>
           <Button
             className={buttonClass}
-            onClick={() => (console.log("test"))}
             asChild
           >
-            <div>
+            <Link href={"/settings/profile"}>
               <UserCog className={iconClass} strokeWidth={2.8}/>
               <Label className={labelClass}>Edit Profile</Label>
-            </div>
+            </Link>
           </Button>
         </div>
 
         <div className={hoverClass}>
           <Button
             className={buttonClass}
-            onClick={() => (console.log("test"))}
+            onClick={onSignOut}
             asChild
           >
             <div>
@@ -126,6 +128,7 @@ export default function Navbar() {
             </div>
           </Button>
         </div>
+
       </Card>
     </div>
   )

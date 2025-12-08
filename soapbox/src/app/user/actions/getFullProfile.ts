@@ -52,6 +52,9 @@ export async function getProfile(username: string) {
 
   if (error) console.log(error);
 
-  if (profile) return profile;
+  if (profile) {
+    //profile.requester_id = await getCurrentUserId();
+    return profile;
+  }
   else return null;
 }

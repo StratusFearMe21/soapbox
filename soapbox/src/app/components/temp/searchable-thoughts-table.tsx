@@ -13,11 +13,15 @@ export function SearchableThoughtsTable({ thoughts }: SearchableThoughtsTablePro
 
   // Filter thoughts whenever search query changes
   useEffect(() => {
-    const filtered = thoughts.filter(thought => 
-      thought.text_content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      thought.user_id.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredThoughts(filtered);
+    const updateTable = async () => {
+      const filtered = thoughts.filter(thought =>
+        thought.text_content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        thought.user_id.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredThoughts(filtered);
+    }
+
+    updateTable();
   }, [searchQuery, thoughts]);
 
   return (

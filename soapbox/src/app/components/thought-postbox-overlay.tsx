@@ -4,7 +4,7 @@ import {Card} from "@/app/components/ui/card";
 import {Button} from "@/app/components/ui/button";
 import {Textarea} from "@/app/components/ui/textarea";
 import {Label} from "@/app/components/ui/label";
-import {postThought} from "@/app/user/actions/postThought";
+import {postThought} from "@/app/utils/postThought";
 import {redirect} from "next/navigation";
 
 interface ThoughtPostBoxOverlayProps {
@@ -24,7 +24,7 @@ function ConfirmCloseDialog({isShown, onConfirm, onCancel} : ConfirmCloseDialogP
       className={
         "absolute h-screen w-screen top-0 left-0 " +
         "flex flex-col justify-center items-center z-20 " +
-        "animate-in fade-in"
+        ""
       }
     >
       <div className={"absolute h-full w-full "} onClick={onCancel}></div>
@@ -89,27 +89,28 @@ export function ThoughtPostBoxOverlay({isShown, onClose}: ThoughtPostBoxOverlayP
       className={
         "absolute top-0 left-0 h-screen w-screen " +
         "flex flex-col items-center justify-center z-10 " +
-        "animate-in fade-in"
+        ""
       }
     >
       <ConfirmCloseDialog isShown={isConfirmShown} onConfirm={onConfirmDialog} onCancel={onCancelDialog} />
 
-      <div className={"absolute bg-black/60 backdrop-blur-sm h-full w-full"} onClick={onOpenConfirmDialog}></div>
+      <div className={"absolute bg-black/50 backdrop-blur-3xl h-full w-full"} onClick={onOpenConfirmDialog}></div>
 
-      <Card className={"relative w-[35%] h-[40%] p-8 bg-card"}>
-        <Button className={"absolute m-4 w-8 h-8 top-0 right-0 rounded-full"} onClick={onOpenConfirmDialog} variant={"ghost"}>
+      <Card className={"relative w-[30%] h-[30%] p-8 bg-card/15 animate-in fade-in"}>
+        <Button className={"absolute m-4 w-8 h-8 top-0 right-0 rounded-full"} onClick={onOpenConfirmDialog} variant={"glass"}>
           <X />
         </Button>
 
         <div className={"w-full h-full flex flex-col items-center justify-center [&>*]:m-2"}>
-          <Label className={"text-lg font-bold"}>test postbox TITLE!!!</Label>
+          <Label className={"text-lg font-bold"}>Thought Canvas</Label>
           <Textarea
-            className={"h-[60%] w-[90%] resize-none"}
+            className={"h-[50%] w-[100%] resize-none"}
             onChange={(e) => (setTextContent(e.target.value))}
-            placeholder={"write your thought here!!!!! :D"}
+            placeholder={"Write your thoughts here!"}
+            maxLength={128}
           />
           <Button
-            variant={"base_button"}
+            variant={"glass"}
             onClick={onPostThought}
             disabled={textContent.length == 0}
           >
