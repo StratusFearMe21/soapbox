@@ -15,7 +15,10 @@ export default function ReplyBox({thought_id} : {thought_id: string}) {
     if (error) {
       setError(error.message);
     }
-    else redirect(location.toString());
+    else {
+      setReplyText("");
+      redirect(location.toString());
+    }
   }
 
   return (
@@ -23,12 +26,14 @@ export default function ReplyBox({thought_id} : {thought_id: string}) {
       <CardContent className={"flex flex-col justify-center items-center p-2 gap-4"}>
         <Textarea
           className={"resize-none h-24"}
+          value={replyText}
           placeholder={"Write a reply..."}
           maxLength={128}
           onChange={(e) => {setReplyText(e.target.value)}}
         />
         <Button
-          className={"w-20"}
+          className={"w-20 m-0 h-8"}
+          variant={"glass"}
           onClick={onReply}
         >
           Reply

@@ -5,9 +5,9 @@ import {useEffect, useState} from "react";
 import { Thought } from "@/app/components/thought";
 import ReplyCard from "@/app/components/reply-card";
 import formatDate from "@/app/utils/formatDate";
-import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 import {getFullThought} from "@/app/user/actions/getFullThought";
 import ReplyBox from "@/app/components/reply-box";
+import {getIsLikeds} from "@/app/utils/likeActions";
 
 export default function ThoughtPage
 (
@@ -20,7 +20,7 @@ export default function ThoughtPage
   const [ replies, setReplies ] = useState<Thought[] | null>(null);
   const [ replyCount, setReplyCount ] = useState<number>(0);
   const [ likeCount, setLikeCount ] = useState<number>(0);
-  const [ isOwnThought, setIsOwnThought ] = useState<boolean>(false);
+  const [ requesterId, setRequesterId ] = useState<string>('');
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
@@ -29,18 +29,45 @@ export default function ThoughtPage
       const {thought_id} = await params;
       const thought = await getFullThought(username, thought_id);
 
-      if (thought) {
+      if (thought && !thought.parent_thought) {
         setThoughtId(thought_id);
         setThought(thought);
         setCreatedAtDate(formatDate(thought.created_at));
         setReplyCount(thought.reply_count[0].count);
         setLikeCount(thought.like_count[0].count);
         setReplies(thought.replies);
+        // delete button
+        setRequesterId(thought.requester_id);
+
+        // push all reply ids to new array
+        const reply_ids = []
+        for (const reply of thought.replies) {
+          reply_ids.push(reply.id);
+        }
+        // worry about likes on them
+        const liked_replies = await getIsLikeds(reply_ids);
+
+        // parse if there are any
+        const liked_reply_ids = [];
+        const new_replies= [];
+        if (liked_replies) {
+          for (const liked_reply of liked_replies) {
+            liked_reply_ids.push(liked_reply.thought_id);
+          }
+          // check if thought id is in that array
+          for (const reply of thought.replies) {
+            reply.is_liked = liked_reply_ids.includes(reply.id);
+            new_replies.push(reply)
+          }
+        } else {
+          // else set all to un-liked
+          for (const reply of thought.replies) {
+            reply.is_liked = false;
+            new_replies.push(reply)
+          }
+        }
       }
 
-      // delete button visibility
-      const auth_id = await getCurrentUserId();
-      if (auth_id == thought?.user_id) setIsOwnThought(true);
       // finally make it all visible :D
       setLoading(false);
     }
@@ -50,20 +77,19 @@ export default function ThoughtPage
 
   return loading ? (
     <div></div>
-  ) : (thought) ? (
+  ) : (thought && !thought.parent_thought) ? (
     <div className={"flex flex-col items-center w-screen min-h-screen pt-20 pb-20 gap-4"}>
       <div className={"w-full max-w-lg glass p-8 relative rounded-2xl"}>
-        { isOwnThought ? <DeleteThoughtButton thought_id={thoughtId}/> : null}
         <div>
-          <div className={"text-lg"}>
+          <div className={"text-xl"}>
             <p className={"font-bold inline-block mr-1 text-white"}>{thought?.profile?.nickname}</p>
             <p className={"inline-block text-white/70"}>@{thought?.profile?.username}</p>
           </div>
-          <div className={"text-xl mt-4 mb-6 leading-relaxed"}>
+          <div className={"text-xl mt-2 w-full wrap-break-word"}>
             {thought.text_content}
           </div>
 
-          <div className={"h-px bg-white/20 w-full my-4"}/>
+          <div className={"h-1 bg-white/20 w-full my-4"}/>
 
           <div className={"mb-2 text-sm text-white/60"}>
             {createdAtDate ? createdAtDate: null}
@@ -73,15 +99,16 @@ export default function ThoughtPage
             <div className={""}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
           </div>
         </div>
+        { requesterId == thought.user_id ? <DeleteThoughtButton thought_id={thoughtId}/> : null}
       </div>
 
       <div className={"w-full max-w-md m-0 p-0"}>
         <ReplyBox thought_id={thoughtId}></ReplyBox>
       </div>
 
-      <div className={"w-full max-w-lg flex flex-col gap-4"}>
+      <div className={"w-full max-w-md m-0 p-0 flex flex-col gap-4"}>
         {replies?.map((reply) => (
-          <ReplyCard key={reply.id} reply={reply}/>
+          <ReplyCard key={reply.id} reply={reply} requester_id={requesterId}/>
         ))}
       </div>
     </div>

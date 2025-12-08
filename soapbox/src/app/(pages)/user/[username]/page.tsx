@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import styles from "../../styles.module.css";
 import ThoughtCard from "@/app/components/thought-card";
 import {Profile} from "@/app/components/thought"
@@ -17,7 +16,6 @@ export default function UserPage
   const [ profile, setProfile ] = useState<Profile | null>(null);
   const [ thoughtCount, setThoughtCount ] = useState<number>(0);
   const [ joinDate, setJoinDate ] = useState<string>("");
-  const [ isOwnProfile, setIsOwnProfile ] = useState<boolean>(false);
   const [ loading, setLoading ] = useState<boolean>(true);
 
   useEffect(() => {
@@ -64,9 +62,6 @@ export default function UserPage
             new_thoughts.push(thought)
           }
         }
-
-        // disable / enable edit button
-        //setIsOwnProfile(profile.id === requester_id);
       }
       setLoading(false);
 
@@ -78,7 +73,6 @@ export default function UserPage
     <div></div>
   ) : (profile) ? (
     <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
-      {isOwnProfile ? <Link className={"fixed bottom-4 left-4 glass px-6 py-3 rounded-full font-bold hover:bg-white/20 transition-all z-50"} href={"/user/edit"}>Edit Profile</Link> : null}
 
       <div className={"flex flex-col items-center w-full max-w-2xl px-4"}>
         <div className="w-full p-6 mb-8 glass rounded-2xl text-center">
@@ -91,7 +85,7 @@ export default function UserPage
 
         <p className={"text-center font-bold"}></p>
 
-        <div className="w-full flex flex-col items-center gap-4">
+        <div className="max-w-md flex flex-col items-center gap-4">
           {profile.thoughts?.map((thought) => (
             <ThoughtCard key={thought.id} thought={thought} nickname={ profile.nickname ? profile.nickname : '' } username={ profile.username ? profile.username : '' } />
           ))}

@@ -44,19 +44,21 @@ export default function EditProfile() {
 
   const onUpdateProfile = async () => {
     setLoading(true);
-    const profileInfo = {
-      nickname: nickname,
-      username: username,
-      bio: bio,
+    if (nickname && username) {
+      const profileInfo = {
+        nickname: nickname,
+        username: username,
+        bio: bio,
+      }
+
+      const result = await updateProfile(profileInfo);
+
+      if (result) redirect("/user/" + username);
+      return;
     }
 
-    const result = await updateProfile(profileInfo);
-
-    if (result) redirect("/user/" + username);
-    else {
-      setError("Error updating profile!");
-      setLoading(false);
-    }
+    setError("Error updating profile!");
+    setLoading(false);
   }
 
   return !loading ? (
@@ -108,6 +110,7 @@ export default function EditProfile() {
             <Button
               variant={"glass"}
               onClick={onUpdateProfile}
+              disabled={nickname.length == 0 || username.length == 0}
             >
               Update Profile
             </Button>

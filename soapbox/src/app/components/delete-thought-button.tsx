@@ -21,7 +21,7 @@ export default function DeleteThoughtButton ( { thought_id } : DeleteThoughtProp
     <Button
       onClick={handleDeleteThought}
       variant={"glass"}
-      className={"absolute top-0 right-0"}
+      className={"absolute top-0 right-0 text-xs w-fit h-6"}
     >
       Delete
     </Button>

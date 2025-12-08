@@ -1,6 +1,7 @@
 "use server";
 
 import {createClient} from "@/app/utils/supabase/server";
+import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 
 export async function getFullThought(username: string, thought_id: string) {
   const supabase = await createClient();
@@ -34,6 +35,9 @@ export async function getFullThought(username: string, thought_id: string) {
 
   if (error) console.log(error);
 
-  if (thought) return thought;
+  if (thought) {
+    thought.requester_id = await getCurrentUserId();
+    return thought;
+  }
   else return null;
 }

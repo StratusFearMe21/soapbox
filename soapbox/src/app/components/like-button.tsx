@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import {invertLike} from "@/app/utils/likeActions";
+import {Button} from "@/app/components/ui/button";
 
 interface LikeButtonThoughts {
   thought_id: string,
@@ -31,12 +32,13 @@ export default function LikeButton({thought_id, is_liked, likeChangeFunction}: L
   }
 
   return (
-    <button
-      className={"absolute bottom-0 right-0 m-4 border border-white/30 rounded-full px-4 py-1 glass hover:bg-white/20 active:bg-white/30 transition-all text-xs font-semibold uppercase tracking-wider"}
+    <Button
+      className={"absolute bottom-0 right-0 text-xs w-fit h-6"}
       disabled={isLoading}
+      variant={"glass"}
       onClick={handleLikeClick}
     >
       {isLiked ? "Unlike" : "Like"}
-    </button>
+    </Button>
   )
 }
