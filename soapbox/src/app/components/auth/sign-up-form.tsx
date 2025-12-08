@@ -45,7 +45,7 @@ export function SignUpForm({
 
     try {
       const formData = new FormData();
-      const sessionJson = await fetch("http://127.0.0.1:3001/rs/api/new_user", {
+      const sessionJson = await fetch("/rs/api/new_user", {
         method: "POST",
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
