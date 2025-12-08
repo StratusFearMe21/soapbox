@@ -1,4 +1,8 @@
-use std::net::{Ipv6Addr, SocketAddr, SocketAddrV6};
+use std::{
+    net::{Ipv6Addr, SocketAddr, SocketAddrV6},
+    ops::Deref,
+    sync::Arc,
+};
 
 use axum::{
     Form, Json, Router,
@@ -65,7 +69,7 @@ struct SupabaseConfig {
     #[clap(long = "supabase-url", env = "SUPABASE_URL")]
     project_url: String,
     #[clap(long = "supabase-api-key", env = "SUPABASE_API_KEY")]
-    api_key: String,
+    api_key: Arc<str>,
     #[clap(long = "supabase-jwt-secret", env = "SUPABASE_JWT_SECRET")]
     jwt_secret: String,
 }
@@ -83,6 +87,7 @@ impl Default for Cli {
 struct SoapboxState {
     auth_client: AuthClient,
     postgrest: Postgrest,
+    api_key: Arc<str>,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -118,6 +123,7 @@ impl SoapboxState {
         self.postgrest
             .from("thoughts_test")
             .select("*")
+            .auth(self.api_key.deref())
             .execute()
             .await
             .wrap_err_with(|| format!("Failed to get feed for user: {}", user.id))?
@@ -177,11 +183,12 @@ async fn main() -> eyre::Result<()> {
         .with_state(SoapboxState {
             auth_client: AuthClient::new(
                 config.supabase.project_url.clone(),
-                config.supabase.api_key.clone(),
+                config.supabase.api_key.deref(),
                 config.supabase.jwt_secret,
             ),
             postgrest: Postgrest::new(format!("{}/rest/v1", config.supabase.project_url))
-                .insert_header("apikey", config.supabase.api_key),
+                .insert_header("apikey", config.supabase.api_key.deref()),
+            api_key: config.supabase.api_key,
         });
 
     let listener = TcpListener::bind(config.addr)
@@ -266,6 +273,7 @@ async fn new_user(
             .wrap_err("Failed to serialize profile to JSON")
             .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?,
         )
+        .auth(state.api_key.deref())
         .execute()
         .await
         .wrap_err("Failed to add profile to profiles table")
