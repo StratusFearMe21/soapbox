@@ -247,7 +247,7 @@ async fn new_user(
             &new_user_form.password,
             Some(supabase_auth::models::SignUpWithPasswordOptions {
                 email_redirect_to: Some(format!(
-                    "https://soapbox.lol/rs/api/confirm_user?username={}&nickname={}",
+                    "https://soapbox.lol/rs/api/confirm_user?username={}&nickname={}&access_token=",
                     new_user_form.username, new_user_form.nickname
                 )),
                 data: None,
@@ -269,17 +269,21 @@ async fn new_user(
 struct NewUserConfirm {
     username: String,
     nickname: String,
+    access_token: String,
 }
 
 #[instrument(skip_all)]
 async fn confirm_user(
     State(state): State<SoapboxState>,
-    TypedHeader(authorization): TypedHeader<Authorization<Bearer>>,
     Query(new_user): Query<NewUserConfirm>,
 ) -> Result<Redirect, error::Error> {
+    const ACCESS_TOKEN_PREFIX: &str = "#access_token=";
+    if !new_user.access_token.starts_with(ACCESS_TOKEN_PREFIX) {
+        return Ok(Redirect::to("/"));
+    }
     let user = state
         .auth_client
-        .get_user(authorization.token())
+        .get_user(&new_user.access_token[ACCESS_TOKEN_PREFIX.len()..])
         .await
         .wrap_err("Couldn't find user with that token")
         .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
