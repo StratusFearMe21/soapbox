@@ -1,0 +1,17 @@
+{
+  "name": "parcel-vanilla-starter",
+  "private": true,
+  "version": "0.0.0",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "@parcel/compressor-brotli": "^2.16.1",
+    "@parcel/compressor-gzip": "^2.16.1",
+    "@parcel/config-default": "^2.16.1",
+    "htmx.org": "^2.0.8",
+    "parcel": "^2.14.0"
+  }
+}

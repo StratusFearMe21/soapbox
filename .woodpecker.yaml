@@ -26,7 +26,7 @@ steps:
     volumes:
       - /home/ubuntu/supabase-project/volumes/site:/site
   
-  docker-build:
+  docker-build-website:
     environment:
       NEXT_PUBLIC_SUPABASE_URL:
         from_secret: supabase_url
@@ -40,5 +40,15 @@ steps:
       - echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" >> soapbox/.env
       - echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" >> soapbox/.env
       - docker build -t soapbox soapbox
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  docker-build-soapbox-rs:
+    depends_on:
+      - install-dependencies
+      - lint
+    image: docker:29.0.0 # fix at least major here
+    commands:
+      - docker build -t soapbox-rs soapbox-rs
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

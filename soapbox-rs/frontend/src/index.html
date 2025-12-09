@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parcel Vanilla App</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="index.js"></script>
+  <meta name="htmx-config"
+    content="{&quot;responseHandling&quot;: [{&quot;code&quot;:&quot;204&quot;, &quot;swap&quot;: false},{&quot;code&quot;:&quot;...&quot;, &quot;swap&quot;: true}]}">
+</head>
+
+<body>
+  <div hx-get="/api/home" hx-trigger="load" hx-swap="outerHTML"></div>
+</body>
+
+</html>

@@ -15,6 +15,8 @@ import { Label } from "@/app/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { sign } from "crypto";
+import { Session } from "@supabase/supabase-js";
 
 export function SignUpForm({
   className,
@@ -23,6 +25,8 @@ export function SignUpForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -40,13 +44,22 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+      const formData = new FormData();
+      const sessionJson = await fetch("/rs/api/new_user", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
+        body: new URLSearchParams({
+          "email": email,
+          "password": password,
+          "password_repeat": repeatPassword,
+          "username": username,
+          "nickname": nickname,
+        }),
       });
+      const session: Session = await sessionJson.json()
+      const { error } = await supabase.auth.setSession({ access_token: session.access_token, refresh_token: session.refresh_token })
       if (error) throw error;
       router.push("/test");
     } catch (error: unknown) {
@@ -101,6 +114,32 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="username">Username</Label>
+                </div>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="me"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="nickname">Nickname</Label>
+                </div>
+                <Input
+                  id="nickname"
+                  type="text"
+                  placeholder="me"
+                  required
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
                 />
               </div>
               {error && <p className="text-sm text-red-500 text-center">{error}</p>}

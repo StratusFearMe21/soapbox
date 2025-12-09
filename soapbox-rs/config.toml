@@ -1,0 +1,7 @@
+log_level = "info"
+addr = "[::]:3001"
+
+[supabase]
+project_url = "http://127.0.0.1:54321"
+api_key = "sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz"
+jwt_secret = "sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz"

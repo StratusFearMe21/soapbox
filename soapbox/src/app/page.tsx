@@ -1,12 +1,13 @@
 import { DeployButton } from "@/app/components/deploy-button";
 import { AuthButton } from "@/app/components/auth-button";
 import { ThemeSwitcher } from "@/app/components/theme-switcher";
-import { SignUpUserSteps } from "@/app/components/tutorial/sign-up-user-steps";
 import Link from "next/link";
+import MetadataComponent from "@/app/utils/MetadataComponent";
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center">
+      <MetadataComponent title={"Soapbox"}/>
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
@@ -24,7 +25,6 @@ export default function Home() {
           {/*<Hero />*/}
           <main className="flex-1 flex flex-col gap-6 px-4">
             <h2 className="font-medium text-xl mb-4">Next steps</h2>
-             <SignUpUserSteps />
           </main>
         </div>
 
