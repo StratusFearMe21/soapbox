@@ -32,6 +32,7 @@ export async function getFullThought(username: string, thought_id: string) {
     .eq('id', thought_id)
     // and filters replies to only ones with correct parent thought
     .eq('replies.parent_thought', thought_id)
+    .order('created_at', { referencedTable: 'replies', ascending: false })
     .single();
 
   if (error) console.log(error);

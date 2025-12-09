@@ -13,12 +13,8 @@ interface ThoughtProp {
 }
 
 export default function ThoughtCard( { thought, nickname, username } : ThoughtProp ) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const reply_count = thought.reply_count[0].count;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const like_count = thought.like_count[0].count;
+  const reply_count = thought.reply_count ? thought.reply_count : 0;
+  const like_count = thought.like_count ? thought.like_count : 0;
 
   const [ likeCount , setLikeCount ] = useState(like_count);
   const [ isLiked, setIsLiked ] = useState(thought.is_liked ? thought.is_liked : false);
@@ -57,7 +53,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
           </p>
         </div>
         <div className={"mt-2 w-full wrap-break-word"}>
-          {thought.text_content}
+          <p className={(thought.text_content.toLowerCase() == "burger" ? "flex flex-col items-center animate-spin" : "")}>{thought.text_content}</p>
         </div>
 
         <div className={"h-px bg-white/20 w-full my-2"}/>
