@@ -1,11 +1,10 @@
 "use client";
 
 import { createClient } from "@/app/utils/supabase/client";
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
-import { useEffect } from "react";
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect } from "react";
 
-export default function Confirm() {
+function Confirm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -43,4 +42,12 @@ export default function Confirm() {
   }, [router, searchParams, supabase])
 
   return (<p>Please Wait</p>)
+}
+
+export default function ConfirmHtml() {
+  return (
+    <Suspense>
+      <Confirm />
+    </Suspense>
+  )
 }
