@@ -1,5 +1,7 @@
 import LoginButton from "@/app/components/auth/loginButton";
 
+//unused?
+
 export default function Unauthorized() {
   return (
     <main>

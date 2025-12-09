@@ -72,7 +72,7 @@ export default function Navbar() {
             className={buttonClass}
             asChild
           >
-            <Link href={"/feed"}>
+            <Link href={"/stream"}>
               <ShowerHead className={iconClass} strokeWidth={2.8}/>
               <Label className={labelClass}>Stream</Label>
             </Link>

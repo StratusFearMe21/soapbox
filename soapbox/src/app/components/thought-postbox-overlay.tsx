@@ -29,11 +29,23 @@ function ConfirmCloseDialog({isShown, onConfirm, onCancel} : ConfirmCloseDialogP
     >
       <div className={"absolute h-full w-full "} onClick={onCancel}></div>
 
-      <Card className={"relative h-[15%] w-[27%] flex flex-col items-center justify-center [&>*]:m-2"}>
+      <Card className={"relative md:w-md md:h-32 w-sm h-48 flex flex-col items-center justify-center [&>*]:m-2 overflow-hiddden"}>
         <Label className={"text-lg text-center pl-2 pr-2"}>Are you sure you want to discard this post?</Label>
         <div className={"w-full flex flex-row justify-around"}>
-          <Button onClick={onConfirm}>Confirm</Button>
-          <Button onClick={onCancel}>Cancel</Button>
+          <Button
+            variant={"glass"}
+            className={"w-fit p-4 m-0"}
+            onClick={onConfirm}
+          >
+            Confirm
+          </Button>
+          <Button
+            variant={"glass"}
+            className={"w-fit p-4 m-0"}
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
         </div>
       </Card>
     </div>
@@ -96,15 +108,15 @@ export function ThoughtPostBoxOverlay({isShown, onClose}: ThoughtPostBoxOverlayP
 
       <div className={"absolute bg-black/50 backdrop-blur-3xl h-full w-full"} onClick={onOpenConfirmDialog}></div>
 
-      <Card className={"relative w-[30%] h-[30%] p-8 bg-card/15 animate-in fade-in"}>
+      <Card className={"relative md:w-lg md:h-72 w-xs h-96 p-8 bg-card/15 animate-in fade-in resize-none  "}>
         <Button className={"absolute m-4 w-8 h-8 top-0 right-0 rounded-full"} onClick={onOpenConfirmDialog} variant={"glass"}>
           <X />
         </Button>
 
-        <div className={"w-full h-full flex flex-col items-center justify-center [&>*]:m-2"}>
+        <div className={"w-full h-full resize-none flex flex-col items-center justify-center [&>*]:m-2"}>
           <Label className={"text-lg font-bold"}>Thought Canvas</Label>
           <Textarea
-            className={"h-[50%] w-[100%] resize-none"}
+            className={"h-[50%] w-full resize-none wrap-anywhere"}
             onChange={(e) => (setTextContent(e.target.value))}
             placeholder={"Write your thoughts here!"}
             maxLength={128}

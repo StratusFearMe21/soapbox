@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import formatDate from "@/app/utils/formatDate";
 import {getProfile} from "@/app/user/actions/getFullProfile";
 import {getIsLikeds} from "@/app/utils/likeActions";
+import useMetadata from "@/app/utils/useMetadata";
 
 export default function UserPage
   (
@@ -17,6 +18,9 @@ export default function UserPage
   const [ thoughtCount, setThoughtCount ] = useState<number>(0);
   const [ joinDate, setJoinDate ] = useState<string>("");
   const [ loading, setLoading ] = useState<boolean>(true);
+
+  // set site metadata
+  useMetadata((profile ? `${profile.nickname} (@${profile.username})` : "Profile") + " | Soapbox");
 
   useEffect(() => {
     const fetchProfile = async () => {

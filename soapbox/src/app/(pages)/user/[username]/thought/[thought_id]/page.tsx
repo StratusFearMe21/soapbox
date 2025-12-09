@@ -8,6 +8,7 @@ import formatDate from "@/app/utils/formatDate";
 import {getFullThought} from "@/app/user/actions/getFullThought";
 import ReplyBox from "@/app/components/reply-box";
 import {getIsLikeds} from "@/app/utils/likeActions";
+import useMetadata from "@/app/utils/useMetadata";
 
 export default function ThoughtPage
 (
@@ -22,6 +23,9 @@ export default function ThoughtPage
   const [ likeCount, setLikeCount ] = useState<number>(0);
   const [ requesterId, setRequesterId ] = useState<string>('');
   const [ loading, setLoading ] = useState<boolean>(true);
+
+  // set site metadata
+  useMetadata((thought?.profile ? `${thought.profile.nickname}: "${thought.text_content}"` : "Thought") + " | Soapbox");
 
   useEffect(() => {
     const fetchThought = async () => {
