@@ -3,35 +3,44 @@
 import { createClient } from "@/app/utils/supabase/client";
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
+import { useEffect } from "react";
 
-export default async function Confirm() {
+export default function Confirm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
-  let user = null;
 
-  {
-    let { data, error } = await supabase.auth.getUser();
+  useEffect(() => {
+    async function confirmEmail() {
+      let user = null;
 
-    if (error) throw error;
-    if (data.user == null) router.push("/auth/login")
+      {
+        let { data, error } = await supabase.auth.getUser();
 
-    user = data.user;
-  }
+        if (error) throw error;
+        if (data.user == null) router.push("/auth/login")
 
-  {
-    if (user == null) {
-      router.push("/auth/login")
-    } else {
-      let { data, error } = await supabase
-        .from('profiles')
-        .insert([
-          { id: user.id, created_at: Date.now(), last_edited: Date.now(), username: searchParams.get("uesrname"), nickname: searchParams.get("nickname"), bio: null }
-        ])
+        user = data.user;
+      }
 
-      if (error) throw error;
+      {
+        if (user == null) {
+          router.push("/auth/login")
+        } else {
+          let { data, error } = await supabase
+            .from('profiles')
+            .insert([
+              { id: user.id, created_at: Date.now(), last_edited: Date.now(), username: searchParams.get("uesrname"), nickname: searchParams.get("nickname"), bio: null }
+            ])
 
-      router.push("/test")
+          if (error) throw error;
+
+          router.push("/test")
+        }
+      }
     }
-  }
+    confirmEmail()
+  }, [router, searchParams, supabase])
+
+  return (<p>Please Wait</p>)
 }
