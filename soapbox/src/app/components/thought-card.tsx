@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Thought } from "@/app/components/thought";
 import formatDate from "@/app/utils/formatDate";
 import LikeButton from "@/app/components/like-button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 interface ThoughtProp {
   thought: Thought
@@ -21,11 +21,22 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
   const like_count = thought.like_count[0].count;
 
   const [ likeCount , setLikeCount ] = useState(like_count);
+  const [ isLiked, setIsLiked ] = useState(thought.is_liked ? thought.is_liked : false);
+
+  useEffect(() => {
+    const loadLike = async () => {
+      setIsLiked(thought.is_liked ? thought.is_liked : false);
+    }
+
+    loadLike();
+  }, [thought.is_liked]);
 
   const handleLikeChange = (increase: boolean) => {
     if (increase) {
+      setIsLiked(true);
       setLikeCount(likeCount + 1);
     } else {
+      setIsLiked(false);
       setLikeCount(likeCount - 1)
     }
   }
@@ -59,7 +70,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
       <div className={"w-[20%] text-sm"}>{reply_count == 1 ? reply_count + " Reply" : reply_count + " Replies"}</div>
         <div className={"text-sm"}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
       </div>
-      <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={thought.is_liked ? thought.is_liked : false}/>
+      <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
     </div>
   )
 }

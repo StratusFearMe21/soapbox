@@ -6,7 +6,6 @@ import {Profile} from "@/app/components/thought"
 import {useEffect, useState} from "react";
 import formatDate from "@/app/utils/formatDate";
 import {getProfile} from "@/app/user/actions/getFullProfile";
-import {getIsLikeds} from "@/app/utils/likeActions";
 import useMetadata from "@/app/utils/useMetadata";
 
 export default function UserPage
@@ -33,39 +32,6 @@ export default function UserPage
         if (profile.created_at) setJoinDate(formatDate(profile.created_at));
         // set thought count
         if (profile.thought_count) setThoughtCount(profile.thought_count[0].count);
-
-        // TODO temporary code for detecting likes
-        //  cannot figure out why this won't work in it's own function
-        //  definitely something to do with arrays in memory though
-        //  will worry later as this works for time being
-
-        // push all ids to new array
-        const thought_ids = []
-        for (const thought of profile.thoughts) {
-          thought_ids.push(thought.id);
-        }
-        // worry about likes on them
-        const liked_thoughts = await getIsLikeds(thought_ids);
-
-        // parse if there are any
-        const liked_thought_ids = [];
-        const new_thoughts= [];
-        if (liked_thoughts) {
-          for (const liked_thought of liked_thoughts) {
-            liked_thought_ids.push(liked_thought.thought_id);
-          }
-          // check if thought id is in that array
-          for (const thought of profile.thoughts) {
-            thought.is_liked = liked_thought_ids.includes(thought.id);
-            new_thoughts.push(thought)
-          }
-        } else {
-          // else set all to un-liked
-          for (const thought of profile.thoughts) {
-            thought.is_liked = false;
-            new_thoughts.push(thought)
-          }
-        }
       }
       setLoading(false);
 
