@@ -45,7 +45,7 @@ export function SignUpForm({
 
     try {
       const formData = new FormData();
-      const sessionJson = await fetch("/rs/api/new_user", {
+      await fetch("/rs/api/new_user", {
         method: "POST",
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -58,10 +58,7 @@ export function SignUpForm({
           "nickname": nickname,
         }),
       });
-      const session: Session = await sessionJson.json()
-      const { error } = await supabase.auth.setSession({ access_token: session.access_token, refresh_token: session.refresh_token })
-      if (error) throw error;
-      router.push("/test");
+      router.push("/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
