@@ -15,11 +15,14 @@ export default function ReplyCard({ reply, requester_id }: ReplyProp) {
   // @ts-expect-error
   const like_count = reply.like_count[0].count;
   const [ likeCount, setLikeCount ] = useState<number>(like_count)
+  const [ isLiked, setIsLiked ] = useState(reply.is_liked ? reply.is_liked : false)
 
   const handleLikeChange = async (increase: boolean) => {
     if (increase) {
+      setIsLiked(true)
       setLikeCount(likeCount + 1);
     } else {
+      setIsLiked(false)
       setLikeCount(likeCount - 1)
     }
   }
@@ -38,7 +41,7 @@ export default function ReplyCard({ reply, requester_id }: ReplyProp) {
       </div>
 
       { reply.user_id == requester_id ? <DeleteThoughtButton thought_id={reply.id}/> : null}
-      <LikeButton thought_id={reply.id} likeChangeFunction={handleLikeChange} is_liked={reply.is_liked ? reply.is_liked : false}/>
+      <LikeButton thought_id={reply.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
     </div>
   )
 }

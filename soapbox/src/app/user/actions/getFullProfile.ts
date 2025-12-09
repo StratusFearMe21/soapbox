@@ -4,6 +4,7 @@ import {Profile, Thought} from "@/app/components/thought";
 import {getUserPostCount, getUserPosts, getUserProfile} from "@/app/user/actions/profileActions";
 import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 import {createClient} from "@/app/utils/supabase/server";
+import {fetchIsLikeds} from "@/app/utils/likeActions";
 
 export interface FullProfile {
   profile: Profile,
@@ -53,6 +54,7 @@ export async function getProfile(username: string) {
   if (error) console.log(error);
 
   if (profile) {
+    await fetchIsLikeds(profile.thoughts);
     //profile.requester_id = await getCurrentUserId();
     return profile;
   }

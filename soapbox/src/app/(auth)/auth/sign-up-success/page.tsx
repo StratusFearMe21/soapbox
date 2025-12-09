@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -5,6 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
+
+//unused ?
 
 export default function Page() {
   return (

@@ -11,21 +11,22 @@ interface LikeButtonThoughts {
 }
 
 export default function LikeButton({thought_id, is_liked, likeChangeFunction}: LikeButtonThoughts) {
-  const [isLiked, setIsLiked] = useState(is_liked);
   const [isLoading, setIsLoading] = useState(false);
+
+  //console.log(thought_id + ": " + is_liked)
 
   const handleLikeClick = async () => {
     setIsLoading(true);
 
-    const is_now_liked = await invertLike(thought_id, isLiked);
-    console.log("is_now_liked: " + is_now_liked);
+    const is_now_liked = await invertLike(thought_id, is_liked);
+    //console.log("is_now_liked: " + is_now_liked);
+
     // if the new value is diff to old
-    if (is_now_liked != isLiked) {
+    if (is_now_liked != is_liked) {
       // then the new value should indicate ...
       // increase if true
       // decrease if false
       likeChangeFunction(is_now_liked)
-      setIsLiked(is_now_liked);
     }
 
     setIsLoading(false);
@@ -38,7 +39,7 @@ export default function LikeButton({thought_id, is_liked, likeChangeFunction}: L
       variant={"glass"}
       onClick={handleLikeClick}
     >
-      {isLiked ? "Unlike" : "Like"}
+      {is_liked ? "Unlike" : "Like"}
     </Button>
   )
 }

@@ -10,6 +10,7 @@ import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 import {createClient} from "@/app/utils/supabase/client";
 import {updateProfile} from "@/app/utils/updateProfile";
 import {redirect} from "next/navigation";
+import Loading from "@/app/components/loading";
 
 export default function EditProfile() {
   const [ loading, setLoading ] = useState(true);
@@ -118,5 +119,7 @@ export default function EditProfile() {
         </div>
       </CardContent>
     </Card>
-  ) : null
+  ) : (
+    <Loading/>
+  )
 }

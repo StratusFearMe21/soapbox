@@ -12,11 +12,6 @@ export default function LogoutButton() {
   }
 
   return (
-    <button
-      className={"m-4 border border-white/30 rounded-full px-4 py-1 glass hover:bg-white/20 active:bg-white/30 transition-all font-semibold uppercase tracking-wider"}
-      onClick={logout}
-    >
-      Logout
-    </button>
+    <button className={"glass p-2 rounded-3xl w-short max-w-4xl flex flex-col items-center gap-6"} onClick={logout}>Logout</button>
   )
 }

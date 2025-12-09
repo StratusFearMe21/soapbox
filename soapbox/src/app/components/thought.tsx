@@ -19,6 +19,7 @@ export interface Thought {
   like_count?: number | CountObj[],
   reply_count?: number | CountObj[],
   is_liked?: boolean,
+
 }
 
 export interface Profile {
