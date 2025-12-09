@@ -52,3 +52,4 @@ steps:
       - docker build -t soapbox-rs soapbox-rs
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
