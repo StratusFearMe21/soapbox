@@ -32,7 +32,7 @@ export default function UserPage
         setProfile(profile);
         if (profile.created_at) setJoinDate(formatDate(profile.created_at));
         // set thought count
-        if (profile.thought_count) setThoughtCount(profile.thought_count[0].count);
+        if (profile.thought_count) setThoughtCount(profile.thought_count);
       }
       setLoading(false);
 

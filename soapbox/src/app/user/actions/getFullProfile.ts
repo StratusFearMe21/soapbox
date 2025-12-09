@@ -38,10 +38,10 @@ export async function getProfile(username: string) {
       *,
       thoughts:thoughts_test!thoughts_test_user_id_fkey1 ( 
         *,
-        like_count:interactions_test!interactions_test_thought_id_fkey( count ),
-        reply_count:thoughts_test!parent_thought ( count )
+        like_count,
+        reply_count
       ),
-      thought_count:thoughts_test!thoughts_test_user_id_fkey1 ( count )
+      thought_count
     `)
     // filters to thoughts under a specific username
     .eq('username', username)

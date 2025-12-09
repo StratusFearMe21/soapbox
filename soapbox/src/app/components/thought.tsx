@@ -5,9 +5,6 @@ export interface FullThought {
   replies?: Thought[],
 }
 
-interface CountObj {
-  count: number;
-}
 
 export interface Thought {
   id: string,
@@ -16,8 +13,8 @@ export interface Thought {
   text_content: string,
   parent_thought: string,
   profile?: Profile,
-  like_count?: number | CountObj[],
-  reply_count?: number | CountObj[],
+  like_count?: number,
+  reply_count?: number,
   is_liked?: boolean,
 
 }

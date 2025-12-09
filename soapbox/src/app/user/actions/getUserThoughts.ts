@@ -1,8 +1,6 @@
 "use server";
 
 import {createClient} from "@/app/utils/supabase/server";
-import {FullThought, Thought} from "@/app/components/thought";
-import {getInteractionsCount} from "@/app/utils/likeActions";
 
 export async function getProfileThoughts(username: string) {
   const supabase =  await createClient();
@@ -11,8 +9,8 @@ export async function getProfileThoughts(username: string) {
     .select(`
       *,
       profile:profiles!thoughts_test_user_id_fkey1 ( nickname, username ),
-      like_count:interactions_test!interactions_test_thought_id_fkey( count ),
-      reply_count:thoughts_test!parent_thought ( count )
+      like_count,
+      reply_count
     `)
     // filters to inner-join thoughts
     .not('profile', 'is', null)
@@ -22,5 +20,6 @@ export async function getProfileThoughts(username: string) {
     .is('parent_thought', null)
 
   if (thoughts) return thoughts;
-  else return null;
+  if (error) console.log(error);
+  return null;
 }
