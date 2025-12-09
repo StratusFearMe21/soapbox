@@ -9,7 +9,7 @@ import getFeedPage from "@/app/utils/getFeedPage";
 import {SortOrder, SortType, Timeframe} from "@/app/components/sort-enums";
 
 
-export default function UserPage()
+export default function StreamPage()
 {
   const [ thoughts, setThoughts ] = useState<Thought[] | null>(null);
 
@@ -42,6 +42,8 @@ export default function UserPage()
   ) : (thoughts) ? (
 
     <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
+
+
       <div className="w-xl flex flex-col items-center gap-4">
         {thoughts.map((thought) => (
           <ThoughtCard key={thought.id} thought={thought} nickname={ thought.profile?.nickname ? thought.profile.nickname : '' } username={ thought.profile?.username ? thought.profile.username : '' } />

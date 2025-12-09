@@ -15,7 +15,6 @@ import { Label } from "@/app/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { sign } from "crypto";
 import { Session } from "@supabase/supabase-js";
 
 export function SignUpForm({
@@ -44,7 +43,6 @@ export function SignUpForm({
     }
 
     try {
-      const formData = new FormData();
       const sessionJson = await fetch("/rs/api/new_user", {
         method: "POST",
         headers: {
@@ -123,7 +121,7 @@ export function SignUpForm({
                 <Input
                   id="username"
                   type="text"
-                  placeholder="me"
+                  placeholder="@Username"
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -136,7 +134,7 @@ export function SignUpForm({
                 <Input
                   id="nickname"
                   type="text"
-                  placeholder="me"
+                  placeholder="Nickname"
                   required
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}

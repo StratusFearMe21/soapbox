@@ -53,7 +53,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
           </p>
         </div>
         <div className={"mt-2 w-full wrap-break-word"}>
-          {thought.text_content}
+          <p className={(thought.text_content.toLowerCase() == "burger" ? "flex flex-col items-center animate-spin" : "")}>{thought.text_content}</p>
         </div>
 
         <div className={"h-px bg-white/20 w-full my-2"}/>
