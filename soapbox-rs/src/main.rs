@@ -4,13 +4,7 @@ use std::{
     sync::Arc,
 };
 
-use axum::{
-    Form, Router,
-    extract::{Query, State},
-    http::StatusCode,
-    response::{Html, Redirect},
-    routing::{get, post},
-};
+use axum::{Router, extract::State, http::StatusCode, response::Html, routing::get};
 use axum_extra::{
     TypedHeader,
     headers::{Authorization, authorization::Bearer},
@@ -18,12 +12,11 @@ use axum_extra::{
 use clap::{Args, Parser};
 use color_eyre::{
     config::Theme,
-    eyre::{self, Context, eyre},
+    eyre::{self, Context},
 };
-use jiff::Timestamp;
 use postgrest::Postgrest;
 use serde::{Deserialize, Serialize};
-use supabase_auth::models::{AuthClient, EmailSignUpResult, User};
+use supabase_auth::models::{AuthClient, User};
 use tokio::{net::TcpListener, signal};
 use tower::ServiceBuilder;
 use tower_http::{
@@ -99,17 +92,6 @@ struct Thought {
     parent_thought: i64,
 }
 
-#[derive(Deserialize, Serialize)]
-struct Profile {
-    id: Uuid,
-    created_at: jiff::Timestamp,
-    last_edited: jiff::Timestamp,
-    username: String,
-    nickname: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    bio: Option<String>,
-}
-
 impl IntoHtml for Thought {
     fn into_html(self) -> impl IntoHtml {
         article!(h1!(self.user_id.to_string()), p!(self.text_content))
@@ -166,8 +148,6 @@ async fn main() -> eyre::Result<()> {
 
     let app = Router::new()
         .route("/rs/api/feed", get(feed))
-        .route("/rs/api/new_user", post(new_user))
-        .route("/rs/api/confirm_user", get(confirm_user))
         .fallback_service(
             ServeDir::new("frontend/dist")
                 .precompressed_gzip()
@@ -221,118 +201,6 @@ async fn feed(
         .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
 
     Ok(Html(feed.into_html().into_string()))
-}
-
-#[derive(Deserialize)]
-struct NewUserForm {
-    email: String,
-    password: String,
-    password_repeat: String,
-    username: String,
-    nickname: String,
-}
-
-#[instrument(skip_all)]
-async fn new_user(
-    State(state): State<SoapboxState>,
-    Form(new_user_form): Form<NewUserForm>,
-) -> Result<(), error::Error> {
-    if new_user_form.password != new_user_form.password_repeat {
-        Err(eyre!("The passwords do not match")).with_status_code(StatusCode::BAD_REQUEST)?
-    }
-    let EmailSignUpResult::ConfirmationResult(_) = state
-        .auth_client
-        .sign_up_with_email_and_password(
-            &new_user_form.email,
-            &new_user_form.password,
-            Some(supabase_auth::models::SignUpWithPasswordOptions {
-                email_redirect_to: Some(format!(
-                    "https://soapbox.lol/rs/api/confirm_user?username={}&nickname={}&access_token=",
-                    new_user_form.username, new_user_form.nickname
-                )),
-                data: None,
-                captcha_token: None,
-            }),
-        )
-        .await
-        .wrap_err("Failed to create user with that email and password")
-        .with_status_code(StatusCode::BAD_REQUEST)?
-    else {
-        Err(eyre!("Email confirmation should be turned on"))
-            .with_status_code(StatusCode::BAD_REQUEST)?
-    };
-
-    Ok(())
-}
-
-#[derive(Deserialize)]
-struct NewUserConfirm {
-    username: String,
-    nickname: String,
-    access_token: String,
-}
-
-#[instrument(skip_all)]
-async fn confirm_user(
-    State(state): State<SoapboxState>,
-    Query(new_user): Query<NewUserConfirm>,
-) -> Result<Redirect, error::Error> {
-    const ACCESS_TOKEN_PREFIX: &str = "#access_token=";
-    if !new_user.access_token.starts_with(ACCESS_TOKEN_PREFIX) {
-        return Ok(Redirect::to("/"));
-    }
-    let user = state
-        .auth_client
-        .get_user(&new_user.access_token[ACCESS_TOKEN_PREFIX.len()..])
-        .await
-        .wrap_err("Couldn't find user with that token")
-        .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
-    let response = state
-        .postgrest
-        .from("profiles")
-        .insert(
-            serde_json::to_string(&[Profile {
-                id: user.id,
-                created_at: Timestamp::now(),
-                last_edited: Timestamp::now(),
-                username: new_user.username,
-                nickname: new_user.nickname,
-                bio: None,
-            }])
-            .wrap_err("Failed to serialize profile to JSON")
-            .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?,
-        )
-        .auth(state.api_key.deref())
-        .execute()
-        .await
-        .wrap_err("Failed to add profile to profiles table")
-        .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
-
-    match response.error_for_status_ref() {
-        Err(e) => {
-            let error = response
-                .text()
-                .await
-                .wrap_err("Failed to get text from insert query")
-                .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
-
-            let status_code = e.status().unwrap_or(StatusCode::INTERNAL_SERVER_ERROR);
-
-            Err(eyre!(error))
-                .wrap_err(e)
-                .wrap_err("Failed to insert user into profiles")
-                .with_status_code(status_code)?;
-        }
-        Ok(_) => {
-            let _ = response
-                .text()
-                .await
-                .wrap_err("Failed to get text from insert query")
-                .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
-        }
-    }
-
-    Ok(Redirect::to("/test"))
 }
 
 async fn shutdown_signal() {

@@ -43,19 +43,8 @@ export function SignUpForm({
     }
 
     try {
-      await fetch("/rs/api/new_user", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-          "email": email,
-          "password": password,
-          "password_repeat": repeatPassword,
-          "username": username,
-          "nickname": nickname,
-        }),
-      });
+      const { data, error } = await supabase.auth.signUp({ email: email, password: password, options: { emailRedirectTo: `https://${window.location.host}/auth/confirm?username=${username}&nickname=${nickname}` } })
+      if (error) throw error;
       router.push("/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
