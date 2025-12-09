@@ -12,6 +12,6 @@ export default function LogoutButton() {
   }
 
   return (
-    <button className={"pt-2 pb-2 pl-4 pr-4 border-4"} onClick={logout}>Logout</button>
+    <button className={"glass p-2 rounded-3xl w-short max-w-4xl flex flex-col items-center gap-6"} onClick={logout}>Logout</button>
   )
 }
