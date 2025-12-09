@@ -5,10 +5,10 @@ use std::{
 };
 
 use axum::{
-    Form, Json, Router,
-    extract::State,
+    Form, Router,
+    extract::{Query, State},
     http::StatusCode,
-    response::Html,
+    response::{Html, Redirect},
     routing::{get, post},
 };
 use axum_extra::{
@@ -23,7 +23,7 @@ use color_eyre::{
 use jiff::Timestamp;
 use postgrest::Postgrest;
 use serde::{Deserialize, Serialize};
-use supabase_auth::models::{AuthClient, EmailSignUpResult, Session, User};
+use supabase_auth::models::{AuthClient, EmailSignUpResult, User};
 use tokio::{net::TcpListener, signal};
 use tower::ServiceBuilder;
 use tower_http::{
@@ -167,6 +167,7 @@ async fn main() -> eyre::Result<()> {
     let app = Router::new()
         .route("/rs/api/feed", get(feed))
         .route("/rs/api/new_user", post(new_user))
+        .route("/rs/api/confirm_user", get(confirm_user))
         .fallback_service(
             ServeDir::new("frontend/dist")
                 .precompressed_gzip()
@@ -235,17 +236,20 @@ struct NewUserForm {
 async fn new_user(
     State(state): State<SoapboxState>,
     Form(new_user_form): Form<NewUserForm>,
-) -> Result<Json<Session>, error::Error> {
+) -> Result<(), error::Error> {
     if new_user_form.password != new_user_form.password_repeat {
         Err(eyre!("The passwords do not match")).with_status_code(StatusCode::BAD_REQUEST)?
     }
-    let EmailSignUpResult::SessionResult(new_user) = state
+    let EmailSignUpResult::ConfirmationResult(_) = state
         .auth_client
         .sign_up_with_email_and_password(
             &new_user_form.email,
             &new_user_form.password,
             Some(supabase_auth::models::SignUpWithPasswordOptions {
-                email_redirect_to: Some("https://soapbox.lol/protected".to_owned()),
+                email_redirect_to: Some(format!(
+                    "https://soapbox.lol/test?username={}&nickname={}",
+                    new_user_form.username, new_user_form.nickname
+                )),
                 data: None,
                 captcha_token: None,
             }),
@@ -254,20 +258,41 @@ async fn new_user(
         .wrap_err("Failed to create user with that email and password")
         .with_status_code(StatusCode::BAD_REQUEST)?
     else {
-        Err(eyre!("Email confirmation should be turned off"))
+        Err(eyre!("Email confirmation should be turned on"))
             .with_status_code(StatusCode::BAD_REQUEST)?
     };
 
+    Ok(())
+}
+
+#[derive(Deserialize)]
+struct NewUserConfirm {
+    username: String,
+    nickname: String,
+}
+
+#[instrument(skip_all)]
+async fn confirm_user(
+    State(state): State<SoapboxState>,
+    TypedHeader(authorization): TypedHeader<Authorization<Bearer>>,
+    Query(new_user): Query<NewUserConfirm>,
+) -> Result<Redirect, error::Error> {
+    let user = state
+        .auth_client
+        .get_user(authorization.token())
+        .await
+        .wrap_err("Couldn't find user with that token")
+        .with_status_code(StatusCode::INTERNAL_SERVER_ERROR)?;
     let response = state
         .postgrest
         .from("profiles")
         .insert(
             serde_json::to_string(&[Profile {
-                id: new_user.user.id,
+                id: user.id,
                 created_at: Timestamp::now(),
                 last_edited: Timestamp::now(),
-                username: new_user_form.username,
-                nickname: new_user_form.nickname,
+                username: new_user.username,
+                nickname: new_user.nickname,
                 bio: None,
             }])
             .wrap_err("Failed to serialize profile to JSON")
@@ -303,7 +328,7 @@ async fn new_user(
         }
     }
 
-    Ok(Json(new_user))
+    Ok(Redirect::to("/test"))
 }
 
 async fn shutdown_signal() {
