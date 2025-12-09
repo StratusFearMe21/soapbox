@@ -247,7 +247,7 @@ async fn new_user(
             &new_user_form.password,
             Some(supabase_auth::models::SignUpWithPasswordOptions {
                 email_redirect_to: Some(format!(
-                    "https://soapbox.lol/test?username={}&nickname={}",
+                    "https://soapbox.lol/rs/api/confirm_user?username={}&nickname={}",
                     new_user_form.username, new_user_form.nickname
                 )),
                 data: None,
