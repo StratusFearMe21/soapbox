@@ -7,8 +7,8 @@ import ReplyCard from "@/app/components/reply-card";
 import formatDate from "@/app/utils/formatDate";
 import {getFullThought} from "@/app/user/actions/getFullThought";
 import ReplyBox from "@/app/components/reply-box";
-import {getIsLikeds} from "@/app/utils/likeActions";
 import useMetadata from "@/app/utils/useMetadata";
+import Loading from "@/app/components/loading";
 
 export default function ThoughtPage
 (
@@ -40,36 +40,8 @@ export default function ThoughtPage
         setReplyCount(thought.reply_count[0].count);
         setLikeCount(thought.like_count[0].count);
         setReplies(thought.replies);
-        // delete button
+        // for delete button
         setRequesterId(thought.requester_id);
-
-        // push all reply ids to new array
-        const reply_ids = []
-        for (const reply of thought.replies) {
-          reply_ids.push(reply.id);
-        }
-        // worry about likes on them
-        const liked_replies = await getIsLikeds(reply_ids);
-
-        // parse if there are any
-        const liked_reply_ids = [];
-        const new_replies= [];
-        if (liked_replies) {
-          for (const liked_reply of liked_replies) {
-            liked_reply_ids.push(liked_reply.thought_id);
-          }
-          // check if thought id is in that array
-          for (const reply of thought.replies) {
-            reply.is_liked = liked_reply_ids.includes(reply.id);
-            new_replies.push(reply)
-          }
-        } else {
-          // else set all to un-liked
-          for (const reply of thought.replies) {
-            reply.is_liked = false;
-            new_replies.push(reply)
-          }
-        }
       }
 
       // finally make it all visible :D
@@ -80,7 +52,7 @@ export default function ThoughtPage
   }, [params])
 
   return loading ? (
-    <div></div>
+    <Loading/>
   ) : (thought && !thought.parent_thought) ? (
     <div className={"flex flex-col items-center w-screen min-h-screen pt-20 pb-20 gap-4"}>
       <div className={"w-full max-w-lg glass p-8 relative rounded-2xl"}>

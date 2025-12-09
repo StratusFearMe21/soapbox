@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import formatDate from "@/app/utils/formatDate";
 import {getProfile} from "@/app/user/actions/getFullProfile";
 import useMetadata from "@/app/utils/useMetadata";
+import Loading from "@/app/components/loading";
 
 export default function UserPage
   (
@@ -40,7 +41,7 @@ export default function UserPage
   }, [params]);
 
   return loading ? (
-    <div></div>
+    <Loading/>
   ) : (profile) ? (
     <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
 
