@@ -45,6 +45,7 @@ export async function getIsFollows(user_ids: string[]) {
     .eq('from', user_id)
     .in('to', user_ids);
   if (error) {
+    console.log("error occurred getting follows")
     console.log(error);
     return null;
   } else return data;

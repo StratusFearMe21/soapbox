@@ -27,13 +27,17 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
     const loadLike = async () => {
       setIsLiked(thought.is_liked ? thought.is_liked : false);
     }
+
+    loadLike();
+  }, [thought.is_liked]);
+
+  useEffect(() => {
     const loadFollow= async () => {
       setIsFollowed(thought.is_followed ? thought.is_followed: false);
     }
 
-    loadLike();
     loadFollow();
-  }, [thought.is_liked, thought.is_followed]);
+  }, [thought.is_followed]);
 
   const handleLikeChange = (increase: boolean) => {
     if (increase) {
