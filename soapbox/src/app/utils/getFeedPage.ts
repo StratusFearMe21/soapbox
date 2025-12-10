@@ -24,6 +24,14 @@ export default async function getFeedPage(page: number, sortType: SortType, sort
   }
   //console.log(from, to, sortColumn, sortOptions);
 
+  // figure out date
+  let sinceDate = new Date();
+  if (timeframe == Timeframe.ALLTIME) {
+    sinceDate = new Date(0);
+  } else {
+    sinceDate.setDate(sinceDate.getDate() - timeframe)
+  }
+
   // do request
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -37,6 +45,7 @@ export default async function getFeedPage(page: number, sortType: SortType, sort
     .order(sortColumn, sortOptions)
     .is("parent_thought", null)
     // .eq for created_at matching
+    .gt("created_at", sinceDate.toISOString())
     .range(from, to)
 
   if (data) return data;

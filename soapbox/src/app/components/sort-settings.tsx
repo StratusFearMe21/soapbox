@@ -2,15 +2,16 @@ import {Popover, PopoverTrigger, PopoverContent} from "@/app/components/ui/popov
 import {useState} from "react";
 import {Button} from "@/app/components/ui/button";
 import {Command, CommandGroup, CommandItem, CommandList} from "@/app/components/ui/command";
-import {Check} from "lucide-react";
-import {getSortOrder, getSortType, SortOrder, SortType} from "@/app/components/sort-enums";
+import {ArrowLeft, ArrowRight, Check} from "lucide-react";
+import {getSortOrder, getSortType, getTimeframe, SortOrder, SortType, Timeframe} from "@/app/components/sort-enums";
+import {Card} from "@/app/components/ui/card";
 
 interface SortTypeProps {
   sortType: SortType,
   setSortType: (sortType: SortType) => void,
 }
 
-export function SortTypeDropdown( { sortType, setSortType }: SortTypeProps ) {
+function SortTypeDropdown( { sortType, setSortType }: SortTypeProps ) {
   const [ open, setOpen ] = useState<boolean>(false);
 
   return (
@@ -20,12 +21,12 @@ export function SortTypeDropdown( { sortType, setSortType }: SortTypeProps ) {
           variant={"glass"}
           role={"combobox"}
           aria-expanded={open}
-          className={"mt-4 mb-2"}
+          className={"mt-2 mb-2 w-full"}
         >
           Sort By: {getSortType(sortType)}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={"w-32 glass"}>
+      <PopoverContent className={"w-40 glass"}>
         <Command className={"text-sm font-medium "}>
           <CommandList >
             <CommandGroup>
@@ -68,7 +69,7 @@ interface SortOrderProps {
   setSortOrder: (sortOrder: SortOrder) => void
 }
 
-export function SortOrderDropdown( { sortOrder, setSortOrder } : SortOrderProps ) {
+function SortOrderDropdown( { sortOrder, setSortOrder } : SortOrderProps ) {
   const [ open, setOpen ] = useState<boolean>(false);
 
   return (
@@ -78,12 +79,12 @@ export function SortOrderDropdown( { sortOrder, setSortOrder } : SortOrderProps 
           variant={"glass"}
           role={"combobox"}
           aria-expanded={open}
-          className={"mt-2 mb-2"}
+          className={"mt-2 mb-2 w-full"}
         >
           Sort Order: {getSortOrder(sortOrder)}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={"w-32 glass"}>
+      <PopoverContent className={"w-40 glass"}>
         <Command className={"text-sm font-medium "}>
           <CommandList >
             <CommandGroup>
@@ -120,18 +121,149 @@ export function SortOrderDropdown( { sortOrder, setSortOrder } : SortOrderProps 
   )
 }
 
+interface TimeframeProps {
+  timeframe: Timeframe,
+  setTimeframe: (timeframe: Timeframe) => void
+}
+
+function TimeframeDropdown( { timeframe, setTimeframe } : TimeframeProps ) {
+  const [ open, setOpen ] = useState<boolean>(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"glass"}
+          role={"combobox"}
+          aria-expanded={open}
+          className={"mt-2 mb-2 w-full"}
+        >
+          TIMEFRAME: {getTimeframe(timeframe)}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className={"w-40 glass"}>
+        <Command className={"text-sm font-medium "}>
+          <CommandList >
+            <CommandGroup>
+              <CommandItem
+                key={"DAY"}
+                value={"DAY"}
+                onSelect={() => {
+                  setTimeframe(Timeframe.DAY)
+                  setOpen(false)
+                }}
+              >
+                DAY
+                <Check className={"size-6 text-white " + (getTimeframe(timeframe) === "DAY" ? "opacity-100" : "opacity-0")}/>
+
+              </CommandItem>
+
+              <CommandItem
+                key={"WEEK"}
+                value={"WEEK"}
+                onSelect={() => {
+                  setTimeframe(Timeframe.WEEK)
+                  setOpen(false)
+                }}
+              >
+                WEEK
+                <Check className={"size-6 text-white " + (getTimeframe(timeframe) === "WEEK" ? "opacity-100" : "opacity-0")}/>
+
+              </CommandItem>
+
+              <CommandItem
+                key={"MONTH"}
+                value={"MONTH"}
+                onSelect={() => {
+                  setTimeframe(Timeframe.MONTH)
+                  setOpen(false)
+                }}
+              >
+                MONTH
+                <Check className={"size-6 text-white " + (getTimeframe(timeframe) === "MONTH" ? "opacity-100" : "opacity-0")}/>
+
+              </CommandItem>
+
+              <CommandItem
+                key={"YEAR"}
+                value={"YEAR"}
+                onSelect={() => {
+                  setTimeframe(Timeframe.YEAR)
+                  setOpen(false)
+                }}
+              >
+                YEAR
+                <Check className={"size-6 text-white " + (getTimeframe(timeframe) === "YEAR" ? "opacity-100" : "opacity-0")}/>
+
+              </CommandItem>
+
+              <CommandItem
+                key={"ALL-TIME"}
+                value={"ALL-TIME"}
+                onSelect={() => {
+                  setTimeframe(Timeframe.ALLTIME)
+                  setOpen(false)
+                }}
+              >
+                ALL-TIME
+                <Check className={"size-6 text-white " + (getTimeframe(timeframe) === "ALL-TIME" ? "opacity-100" : "opacity-0")}/>
+
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
 interface SortSettingsProps {
+  page: number,
+  setPage: (page: number) => void,
+  isNextPage: boolean,
   sortType: SortType,
   setSortType: (sortType: SortType) => void,
   sortOrder: SortOrder,
   setSortOrder: (sortOrder: SortOrder) => void
+  timeframe: Timeframe,
+  setTimeframe: (timeframe: Timeframe) => void
 }
 
-export default function SortSettings( {sortType, setSortType, sortOrder, setSortOrder} : SortSettingsProps ) {
+export default function SortSettings( {page, setPage, isNextPage, sortType, setSortType, sortOrder, setSortOrder, timeframe, setTimeframe} : SortSettingsProps ) {
+  const onPrevPage = async () => {
+    setPage(page - 1);
+  }
+
+  const onNextPage = async () => {
+    setPage(page + 1);
+  }
+
   return (
-    <div className={"absolute top-0 right-0 z-30 flex flex-col"}>
-      <SortTypeDropdown sortType={sortType} setSortType={setSortType} />
-      <SortOrderDropdown sortOrder={sortOrder} setSortOrder={setSortOrder} />
-    </div>
+    <Card className={"fixed top-0 right-0 z-30 flex flex-col justify-center items-center rounded-md m-8 p-4"}>
+      <SortTypeDropdown sortType={sortType} setSortType={setSortType}/>
+      <SortOrderDropdown sortOrder={sortOrder} setSortOrder={setSortOrder}/>
+      <TimeframeDropdown timeframe={timeframe} setTimeframe={setTimeframe}/>
+
+      <div className={"h-px bg-white/20 w-[50%] my-2"}/>
+
+      <div className={"flex flex-row justify-center items-center"}>
+        <Button
+          variant={"glass"}
+          className={"mt-2 mb-0"}
+          disabled={page === 1}
+          onClick={onPrevPage}
+        >
+          <ArrowLeft/>
+        </Button>
+        <Button
+          variant={"glass"}
+          className={"mt-2 mb-0"}
+          disabled={!isNextPage}
+          onClick={onNextPage}
+        >
+          <ArrowRight/>
+        </Button>
+      </div>
+    </Card>
   )
 }

@@ -37,9 +37,24 @@ export function getSortOrder(sortOrder: SortOrder): string {
 }
 
 export enum Timeframe {
-  DAY,
-  WEEK,
-  MONTH,
-  YEAR,
-  ALLTIME,
+  DAY = 1,
+  WEEK = 7,
+  MONTH = 30,
+  YEAR = 365,
+  ALLTIME = 10000000000, // useless
+}
+
+export function getTimeframe(timeframe: Timeframe): string {
+  switch (timeframe) {
+    case Timeframe.DAY:
+      return "DAY";
+    case Timeframe.MONTH:
+      return "MONTH";
+    case Timeframe.YEAR:
+      return "YEAR";
+    case Timeframe.ALLTIME:
+      return "ALL-TIME";
+    default:
+      return "WEEK";
+  }
 }
