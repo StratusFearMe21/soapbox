@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/components/loading";
 import { createClient } from "@/app/utils/supabase/client";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect } from "react";
@@ -41,7 +42,7 @@ function Confirm() {
     confirmEmail()
   }, [router, searchParams, supabase])
 
-  return (<p>Please Wait</p>)
+  return (<Loading />)
 }
 
 export default function ConfirmHtml() {
