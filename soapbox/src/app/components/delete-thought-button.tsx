@@ -2,7 +2,7 @@
 
 import {deleteThought} from "@/app/user/actions/postActions";
 import {redirect} from "next/navigation";
-import {Button} from "@/app/components/ui/button";
+import {ConfirmDialog} from "@/app/components/ui/confirm-dialog";
 
 interface DeleteThoughtProps {
   thought_id: string,
@@ -18,12 +18,22 @@ export default function DeleteThoughtButton ( { thought_id } : DeleteThoughtProp
   }
 
   return (
-    <Button
-      onClick={handleDeleteThought}
-      variant={"glass"}
-      className={"absolute top-0 right-0 text-xs w-fit h-6"}
-    >
-      Delete
-    </Button>
+    <div className={"m-4"}>
+      <ConfirmDialog
+        buttonText={"Delete"}
+        mainText={"Are you sure you want to delete this thought?"}
+        confirmText={"Yes"}
+        cancelText={"No"}
+        onConfirm={handleDeleteThought}
+      />
+    </div>
   )
 }
+
+{/*<Button
+  onClick={handleDeleteThought}
+  variant={"glass"}
+  className={"text-xs w-fit h-6"}
+>
+  Delete
+</Button>*/}

@@ -3,7 +3,7 @@
 import { SortType, SortOrder, Timeframe } from "@/app/components/sort-enums";
 import {createClient} from "@/app/utils/supabase/server";
 
-export default async function getFeedPage(page: number, sortType: SortType, sortOrder: SortOrder, timeframe: Timeframe) {
+export default async function getFeedPage(page: number, followingOnly: boolean, sortType: SortType, sortOrder: SortOrder, timeframe: Timeframe) {
   // get range
   const defaultCount = 10;
   const from = defaultCount * (page - 1);
@@ -32,21 +32,34 @@ export default async function getFeedPage(page: number, sortType: SortType, sort
     sinceDate.setDate(sinceDate.getDate() - timeframe)
   }
 
+  const is_following_set = [true];
+  if (!followingOnly) {
+    is_following_set.push(false);
+  }
+
   // do request
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("thoughts_test")
     .select(`
       *,
-      profile:profiles!thoughts_test_user_id_fkey1 ( nickname, username ),
-      like_count  ,
+      profile:profiles!thoughts_test_user_id_fkey1 ( nickname, username, is_following ),
+      like_count,
+      is_liked,
       reply_count
     `)
-    .order(sortColumn, sortOptions)
+    // only get non-replies
     .is("parent_thought", null)
-    // .eq for created_at matching
+    // only since timeframe
     .gt("created_at", sinceDate.toISOString())
+    // get only thoughts from users being followed
+    .in("profile.is_following", is_following_set)
+    .not("profile", "is", null)
+    // limit to current page range
     .range(from, to)
+    // finally, sort
+    .order(sortColumn, sortOptions)
+
 
   if (data) return data;
   if (error) console.log(error);

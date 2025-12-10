@@ -17,7 +17,7 @@ export interface Thought {
   reply_count?: number,
   follow_count?: number,
   is_liked?: boolean,
-  is_followed?: boolean,
+  is_following?: boolean,
 }
 
 export interface Profile {
@@ -27,5 +27,6 @@ export interface Profile {
   bio?: string,
   created_at?: string,
   last_edited?: string,
+  is_following?: boolean,
   thoughts?: Thought[],
 }

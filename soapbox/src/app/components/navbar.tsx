@@ -4,7 +4,7 @@ import Link from "next/link";
 import {useEffect, useState} from "react";
 import {createClient} from "@/app/utils/supabase/client";
 import {Button} from "@/app/components/ui/button";
-import {ThoughtPostBoxOverlay} from "@/app/components/thought-postbox-overlay";
+import {ThoughtPostBoxOverlay, ThoughtPostDialog} from "@/app/components/thought-postbox-overlay";
 import {ShowerHead, User, SquarePen, UserCog, LogOut} from "lucide-react";
 import {Card} from "@/app/components/ui/card";
 import {Label} from "@/app/components/ui/label";
@@ -25,23 +25,8 @@ export default function Navbar() {
         setProfileLink("/auth/login");
       }
     }
-
     fetchProfileLink();
   }, [])
-
-  const [ isShown, setIsShown ] = useState(false);
-
-  const onOpenThoughtPostBox = async () => {
-    if (!isShown) {
-      setIsShown(true);
-    }
-  }
-
-  const onCloseThoughtPostBox = async () => {
-    if (isShown) {
-      setIsShown(false);
-    }
-  }
 
   const onSignOut = async () => {
     const supabase = createClient();
@@ -59,10 +44,6 @@ export default function Navbar() {
     <div
       className={"p-6 flex justify-center items-center fixed top-0 left-0 w-48"}
     >
-      <ThoughtPostBoxOverlay
-        isShown={isShown}
-        onClose={onCloseThoughtPostBox}
-      />
       <Card className={
         "flex flex-col w-full justify-center items-center p-2 border-none shadow-none bg-transparent"
       }>
@@ -92,16 +73,7 @@ export default function Navbar() {
         </div>
 
         <div className={hoverClass}>
-          <Button
-            className={buttonClass}
-            onClick={onOpenThoughtPostBox}
-            asChild
-          >
-            <div>
-              <SquarePen className={iconClass} strokeWidth={2.8}/>
-              <Label className={labelClass}>New Thought</Label>
-            </div>
-          </Button>
+          <ThoughtPostDialog/>
         </div>
 
         <div className={hoverClass}>

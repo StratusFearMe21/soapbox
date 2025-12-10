@@ -1,9 +1,13 @@
-import { AuthButton } from "@/app/components/auth-button";
+"use client";
+
 import { ThemeSwitcher } from "@/app/components/theme-switcher";
 import Link from "next/link";
 import MetadataComponent from "@/app/utils/MetadataComponent";
+import Loading from "@/app/components/loading";
+import {useEffect} from "react";
+import {redirect} from "next/navigation";
 
-export default function Home() {
+function oldHome() {
   return (
     <main className="min-h-screen flex flex-col items-center">
       <MetadataComponent title={"Soapbox"}/>
@@ -13,7 +17,6 @@ export default function Home() {
             <div className="flex gap-5 items-center font-semibold">
               <Link href="/">Home Page</Link>
             </div>
-            <AuthButton />
           </div>
         </nav>
 
@@ -23,4 +26,16 @@ export default function Home() {
       </div>
     </main>
   );
+}
+
+export default function Home() {
+  useEffect(() => {
+    redirect("/stream")
+  }, []);
+
+  return (
+    <div>
+      <Loading/>
+    </div>
+  )
 }

@@ -2,9 +2,12 @@ import {Popover, PopoverTrigger, PopoverContent} from "@/app/components/ui/popov
 import {useState} from "react";
 import {Button} from "@/app/components/ui/button";
 import {Command, CommandGroup, CommandItem, CommandList} from "@/app/components/ui/command";
-import {ArrowLeft, ArrowRight, Check} from "lucide-react";
+import {ArrowLeft, ArrowRight, Check, X} from "lucide-react";
 import {getSortOrder, getSortType, getTimeframe, SortOrder, SortType, Timeframe} from "@/app/components/sort-enums";
 import {Card} from "@/app/components/ui/card";
+import {Checkbox} from "@/app/components/ui/checkbox";
+import {CheckboxIndicator} from "@radix-ui/react-checkbox";
+import {Label} from "@/app/components/ui/label";
 
 interface SortTypeProps {
   sortType: SortType,
@@ -227,9 +230,11 @@ interface SortSettingsProps {
   setSortOrder: (sortOrder: SortOrder) => void
   timeframe: Timeframe,
   setTimeframe: (timeframe: Timeframe) => void
+  followingOnly: boolean,
+  setFollowingOnly: (followingOnly: boolean) => void,
 }
 
-export default function SortSettings( {page, setPage, isNextPage, sortType, setSortType, sortOrder, setSortOrder, timeframe, setTimeframe} : SortSettingsProps ) {
+export default function SortSettings( {page, setPage, isNextPage, sortType, setSortType, sortOrder, setSortOrder, timeframe, setTimeframe, followingOnly, setFollowingOnly} : SortSettingsProps ) {
   const onPrevPage = async () => {
     setPage(page - 1);
   }
@@ -238,11 +243,27 @@ export default function SortSettings( {page, setPage, isNextPage, sortType, setS
     setPage(page + 1);
   }
 
+  const onChangeFollowingOnly = async () => {
+    setFollowingOnly(!followingOnly);
+  }
+
   return (
     <Card className={"fixed top-0 right-0 z-30 flex flex-col justify-center items-center rounded-md m-8 p-4"}>
       <SortTypeDropdown sortType={sortType} setSortType={setSortType}/>
       <SortOrderDropdown sortOrder={sortOrder} setSortOrder={setSortOrder}/>
       <TimeframeDropdown timeframe={timeframe} setTimeframe={setTimeframe}/>
+      <Button
+        variant={"glass"}
+        className={"m-2 w-full flex flex-row justify-center items-center"}
+        onClick={onChangeFollowingOnly}
+      >
+        <div className={"flex flex-row justify-center items-center gap-3"}>
+          <Label>
+            Followed Only
+          </Label>
+          {followingOnly ? <Check strokeWidth={2.8}/> : <X strokeWidth={2.8}/>}
+        </div>
+      </Button>
 
       <div className={"h-px bg-white/20 w-[50%] my-2"}/>
 
@@ -253,7 +274,7 @@ export default function SortSettings( {page, setPage, isNextPage, sortType, setS
           disabled={page === 1}
           onClick={onPrevPage}
         >
-          <ArrowLeft/>
+          <ArrowLeft strokeWidth={2.8}/>
         </Button>
         <Button
           variant={"glass"}
@@ -261,7 +282,7 @@ export default function SortSettings( {page, setPage, isNextPage, sortType, setS
           disabled={!isNextPage}
           onClick={onNextPage}
         >
-          <ArrowRight/>
+          <ArrowRight strokeWidth={2.8}/>
         </Button>
       </div>
     </Card>

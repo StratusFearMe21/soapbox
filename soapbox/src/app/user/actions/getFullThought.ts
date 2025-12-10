@@ -15,15 +15,15 @@ export async function getFullThought(username: string, thought_id: string) {
         username,
         nickname
       ),
-      like_count:interactions_test!interactions_test_thought_id_fkey( count ),
-      reply_count:thoughts_test!parent_thought ( count ),
+      like_count,
+      reply_count,
       replies:thoughts_test!parent_thought (
         *,
         profile:profiles!thoughts_test_user_id_fkey1 ( 
           username,
           nickname
         ),
-        like_count:interactions_test!interactions_test_thought_id_fkey( count )
+        like_count
       )
     `)
     // filters to only thoughts by given username

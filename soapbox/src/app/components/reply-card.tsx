@@ -3,6 +3,7 @@ import formatDate from "@/app/utils/formatDate";
 import {useState} from "react";
 import LikeButton from "@/app/components/like-button";
 import DeleteThoughtButton from "@/app/components/delete-thought-button";
+import FollowButton from "@/app/components/follow-button";
 //import {getInteractionsCount} from "@/app/user/actions/likeActions";
 
 interface ReplyProp {
@@ -11,10 +12,7 @@ interface ReplyProp {
 }
 
 export default function ReplyCard({ reply, requester_id }: ReplyProp) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const like_count = reply.like_count[0].count;
-  const [ likeCount, setLikeCount ] = useState<number>(like_count)
+  const [ likeCount, setLikeCount ] = useState<number>(reply.like_count ? reply.like_count : 0);
   const [ isLiked, setIsLiked ] = useState(reply.is_liked ? reply.is_liked : false)
 
   const handleLikeChange = async (increase: boolean) => {
@@ -36,12 +34,20 @@ export default function ReplyCard({ reply, requester_id }: ReplyProp) {
       <div className={"h-px bg-white/20 w-full my-2"}/>
 
       <p className={"text-sm text-white/60 mb-1"}>{formatDate(reply.created_at)}</p>
-      <div className={"flex flex-row w-full"}>
+
+      <div className={"flex flex-row w-full font-medium "}>
         <div className={"text-sm"}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
       </div>
 
-      { reply.user_id == requester_id ? <DeleteThoughtButton thought_id={reply.id}/> : null}
-      <LikeButton thought_id={reply.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
+      <div className={"absolute top-0 right-0 gap-8 mt-2 mr-2 flex w-full flex-row-reverse"}>
+        {requester_id == reply.user_id ? <DeleteThoughtButton thought_id={reply.id}/> : null}
+      </div>
+
+
+      <div className={"absolute bottom-0 right-0 gap-8 mb-6 mr-6 flex w-full flex-row-reverse"}>
+        <LikeButton thought_id={reply.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
+      </div>
+
     </div>
   )
 }

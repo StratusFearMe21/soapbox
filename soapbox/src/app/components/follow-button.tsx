@@ -23,9 +23,9 @@ export default function FollowButton({user_id, is_followed, followChangeFunction
 
     // if the new value is diff to old
     if (is_now_followed != is_followed) {
-      // then the new value should indicate ...
-      // increase if true
-      // decrease if false
+      // then the new value should indicate
+      // whether the user is following (true)
+      // or not following (false)
       followChangeFunction(is_now_followed)
     }
 
@@ -34,7 +34,7 @@ export default function FollowButton({user_id, is_followed, followChangeFunction
 
   return (
     <Button
-      className={"text-xs w-fit h-6"}
+      className={"text-xs w-fit h-6 m-0"}
       disabled={isLoading}
       variant={"glass"}
       onClick={handleFollowClick}

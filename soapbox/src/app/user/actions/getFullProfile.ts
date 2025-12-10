@@ -7,30 +7,6 @@ import {createClient} from "@/app/utils/supabase/server";
 import {fetchIsLikeds} from "@/app/utils/likeActions";
 import { fetchIsFollows } from "@/app/utils/followActions";
 
-export interface FullProfile {
-  profile: Profile,
-  thoughts: Thought[],
-  thought_count?: number,
-  requester_id?: string,
-}
-
-export async function getFullProfile(username: string) {
-  const profile: Profile = await getUserProfile(username);
-  const thoughts: Thought[] = await getUserPosts(username);
-  await getProfile(username);
-  const thought_count = await getUserPostCount(username);
-  const requester_id: string = await getCurrentUserId();
-
-  const fullProfile: FullProfile = {
-    profile,
-    thoughts,
-    thought_count,
-    requester_id,
-  }
-
-  return fullProfile;
-}
-
 export async function getProfile(username: string) {
   const supabase = await createClient();
   const { data: profile, error } = await supabase
@@ -40,9 +16,11 @@ export async function getProfile(username: string) {
       thoughts:thoughts_test!thoughts_test_user_id_fkey1 ( 
         *,
         like_count,
-        reply_count
+        reply_count,
+        is_liked
       ),
-      thought_count
+      thought_count,
+      is_following
     `)
     // filters to thoughts under a specific username
     .eq('username', username)
@@ -55,9 +33,7 @@ export async function getProfile(username: string) {
   if (error) console.log(error);
 
   if (profile) {
-    await fetchIsLikeds(profile.thoughts);
-    await fetchIsFollows(profile.thoughts);
-    //profile.requester_id = await getCurrentUserId();
+    profile.requester_id = await getCurrentUserId();
     return profile;
   }
   else return null;

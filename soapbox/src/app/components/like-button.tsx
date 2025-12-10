@@ -34,7 +34,7 @@ export default function LikeButton({thought_id, is_liked, likeChangeFunction}: L
 
   return (
     <Button
-      className={"text-xs w-fit h-6"}
+      className={"text-xs w-fit h-6 m-0"}
       disabled={isLoading}
       variant={"glass"}
       onClick={handleLikeClick}

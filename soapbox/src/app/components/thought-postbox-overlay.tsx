@@ -1,136 +1,166 @@
-import { useState } from "react";
-import {X} from 'lucide-react';
+import {useEffect, useState} from "react";
+import {SquarePen, X, XIcon} from 'lucide-react';
 import {Card} from "@/app/components/ui/card";
 import {Button} from "@/app/components/ui/button";
 import {Textarea} from "@/app/components/ui/textarea";
 import {Label} from "@/app/components/ui/label";
 import {postThought} from "@/app/utils/postThought";
 import {redirect} from "next/navigation";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle
+} from "@/app/components/ui/dialog";
+import {DialogTrigger} from "@radix-ui/react-dialog";
+import * as React from "react";
 
-interface ThoughtPostBoxOverlayProps {
-  isShown: boolean;
-  onClose: () => void;
-}
-
-interface ConfirmCloseDialogProps {
-  isShown: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-}
-
-function ConfirmCloseDialog({isShown, onConfirm, onCancel} : ConfirmCloseDialogProps ) {
-  return isShown ? (
-    <div
-      className={
-        "absolute h-screen w-screen top-0 left-0 " +
-        "flex flex-col justify-center items-center z-20 " +
-        ""
-      }
-    >
-      <div className={"absolute h-full w-full "} onClick={onCancel}></div>
-
-      <Card className={"relative md:w-md md:h-32 w-sm h-48 flex flex-col items-center justify-center [&>*]:m-2 overflow-hiddden"}>
-        <Label className={"text-lg text-center pl-2 pr-2"}>Are you sure you want to discard this post?</Label>
-        <div className={"w-full flex flex-row justify-around"}>
-          <Button
-            variant={"glass"}
-            className={"w-fit p-4 m-0"}
-            onClick={onConfirm}
-          >
-            Confirm
-          </Button>
-          <Button
-            variant={"glass"}
-            className={"w-fit p-4 m-0"}
-            onClick={onCancel}
-          >
-            Cancel
-          </Button>
-        </div>
-      </Card>
-    </div>
-  ) : null;
-}
-
-export function ThoughtPostBoxOverlay({isShown, onClose}: ThoughtPostBoxOverlayProps ) {
-  const [ isConfirmShown, setIsConfirmShown ] = useState(false);
+export function ThoughtPostDialog() {
   const [ textContent, setTextContent ] = useState("");
   const [ error, setError ] = useState("");
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ isConfirmOpen, setIsConfirmOpen ] = useState(false);
 
-  const onOpenConfirmDialog = async () => {
-    if (textContent.length > 0 && !isConfirmShown) {
-      setIsConfirmShown(true);
+  const onOpenChange = async () => {
+    if ( isOpen ) {
+      if (textContent.length > 0) {
+        setIsConfirmOpen(true);
+      } else {
+        setTextContent("");
+        setError("");
+        setIsOpen(false);
+      }
     } else {
-      onClose();
+      setIsOpen(true);
     }
   }
 
-  const onConfirmDialog = async() => {
+  const onConfirmOpenChange = async () => {
+    if ( isConfirmOpen ) {
+      setIsConfirmOpen(false);
+    }
+  }
+
+  const onConfirm = async () => {
     setTextContent("");
     setError("");
+    setIsConfirmOpen(false);
+    setIsOpen(false);
 
-    if (isConfirmShown) {
-      onClose();
-      setIsConfirmShown(false);
-    }
-  }
-
-  const onCancelDialog = async () => {
-    //TODO probably done but come back to check
-    if (isConfirmShown) {
-      setIsConfirmShown(false);
-    }
   }
 
   const onPostThought = async () => {
-    if (textContent.length > 0 && !isConfirmShown) {
+    if (textContent.length > 0) {
       const error = await postThought(textContent)
       if (error) {
         if (error.code == '42501') setError("Error when posting!");
       } else {
         setTextContent("");
         setError("");
-        onClose();
         redirect(location.toString());
       }
     }
   }
 
-  return isShown ? (
-    <div
-      className={
-        "absolute top-0 left-0 h-screen w-screen " +
-        "flex flex-col items-center justify-center z-10 " +
-        ""
-      }
+  return (
+    <Dialog
+      open={ isOpen }
+      onOpenChange={onOpenChange}
     >
-      <ConfirmCloseDialog isShown={isConfirmShown} onConfirm={onConfirmDialog} onCancel={onCancelDialog} />
-
-      <div className={"absolute bg-black/50 backdrop-blur-3xl h-full w-full"} onClick={onOpenConfirmDialog}></div>
-
-      <Card className={"relative md:w-lg md:h-72 w-xs h-96 p-8 bg-card/15 animate-in fade-in resize-none  "}>
-        <Button className={"absolute m-4 w-8 h-8 top-0 right-0 rounded-full"} onClick={onOpenConfirmDialog} variant={"glass"}>
-          <X />
+      <DialogTrigger asChild>
+        <Button
+          className={"size-4 pt-4 pb-4 group-hover:w-full group-hover:bg-white/20 font-bold rounded-lg m-0 text-sm text-link ease-in-out bg-white/10 border border-white/10 backdrop-blur-sm transition-all duration-200"}
+          asChild
+        >
+          <div>
+            <SquarePen
+              className={"group-hover:opacity-0 transition-discrete duration-300"}
+              strokeWidth={2.8}
+            />
+            <Label
+              className={"font-bold absolute opacity-0 group-hover:opacity-100 transition-opacity duration-75 group-hover:duration-700"}
+            >
+              New Thought
+            </Label>
+          </div>
         </Button>
-
-        <div className={"w-full h-full resize-none flex flex-col items-center justify-center [&>*]:m-2"}>
+      </DialogTrigger>
+      <DialogContent className={"glass lg:min-w-md flex flex-col justify-center items-center p-8"}>
+        <DialogTitle>
           <Label className={"text-lg font-bold"}>Thought Canvas</Label>
-          <Textarea
-            className={"h-[50%] w-full resize-none wrap-anywhere"}
-            onChange={(e) => (setTextContent(e.target.value))}
-            placeholder={"Write your thoughts here!"}
-            maxLength={128}
-          />
+        </DialogTitle>
+
+        <ConfirmCloseDialog open={isConfirmOpen} onConfirmOpenChange={onConfirmOpenChange} onConfirm={onConfirm} />
+
+        <Textarea
+          className={"w-full min-h-20 max-h-40 resize-none wrap-anywhere"}
+          value={textContent}
+          onChange={(e) => (setTextContent(e.target.value))}
+          placeholder={"Write your thoughts here!"}
+          maxLength={128}
+        />
+
+        <DialogFooter>
           <Button
             variant={"glass"}
+            className={"text-xs w-fit h-6 m-0"}
             onClick={onPostThought}
-            disabled={textContent.length == 0}
+            disabled={textContent.length === 0}
           >
-            Post Thought
+            Post
           </Button>
-          {error ? <div className="text-sm text-red-500">{error}</div> : null}
-        </div>
-      </Card>
-    </div>
-  ) : null;
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+
+interface ConfirmCloseDialogProps {
+  open: boolean;
+  onConfirmOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+}
+
+function ConfirmCloseDialog( { open, onConfirmOpenChange, onConfirm }: ConfirmCloseDialogProps ) {
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={onConfirmOpenChange}
+    >
+      <DialogTrigger asChild>
+      </DialogTrigger>
+      <DialogContent className={"glass"}>
+        <DialogTitle hidden/>
+
+        <DialogDescription
+          className={"flex flex-col w-full text-center font-medium"}
+        >
+          Are you sure you want to delete this thought?
+        </DialogDescription>
+        <DialogFooter className={"flex flex-row w-full justify-center items-center"}>
+
+          <Button
+            variant={"glass"}
+            className={"text-xs w-fit h-6 m-0"}
+            onClick={onConfirm}
+          >
+            Yes
+          </Button>
+
+          <DialogClose asChild>
+            <Button
+              variant={"glass"}
+              className={"text-xs w-fit h-6 m-0"}
+            >
+              No
+            </Button>
+          </DialogClose>
+
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 }

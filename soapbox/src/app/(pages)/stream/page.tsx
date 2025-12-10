@@ -14,6 +14,7 @@ export default function StreamPage()
 {
   const [ thoughts, setThoughts ] = useState<Thought[] | null>(null);
 
+  const [ followingOnly, setFollowingOnly ] = useState(false);
   const [ sortType, setSortType ] = useState(SortType.LIKES);
   const [ sortOrder, setSortOrder ] = useState(SortOrder.DESC);
   const [ timeframe, setTimeframe ] = useState(Timeframe.WEEK);
@@ -27,12 +28,16 @@ export default function StreamPage()
   useEffect(() => {
     const fetchFeed = async () => {
       setLoading(true);
-      const thoughts = await getFeedPage(page, sortType, sortOrder, timeframe)
+      const thoughts = await getFeedPage(page, followingOnly, sortType, sortOrder, timeframe)
       setThoughts(thoughts)
       setLoading(false);
     }
     fetchFeed();
-  }, [page, sortType, sortOrder, timeframe]);
+  }, [page, sortType, sortOrder, timeframe, followingOnly]);
+
+  const onUpdateFollowingOnly = async (followingOnly: boolean) => {
+    setFollowingOnly(followingOnly);
+  }
 
   const onUpdateSortType = async (sortType: SortType) => {
     setSortType(sortType);
@@ -65,6 +70,8 @@ export default function StreamPage()
         setSortOrder={onUpdateSortOrder}
         timeframe={timeframe}
         setTimeframe={onUpdateTimeframe}
+        followingOnly={followingOnly}
+        setFollowingOnly={onUpdateFollowingOnly}
       />
 
       {thoughts.length > 0 ?
