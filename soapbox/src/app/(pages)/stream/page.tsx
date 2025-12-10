@@ -34,8 +34,12 @@ export default function StreamPage()
     fetchFeed();
   }, [page, sortType, sortOrder, timeframe]);
 
-  const updateSort = async () => {
+  const onUpdateSortType = async (sortType: SortType) => {
+    setSortType(sortType);
+  }
 
+  const onUpdateSortOrder = async (sortOrder: SortOrder) => {
+    setSortOrder(sortOrder);
   }
 
   return loading ? (
@@ -43,7 +47,7 @@ export default function StreamPage()
   ) : (thoughts) ? (
 
     <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
-      <SortSettings/>
+      <SortSettings sortType={sortType} setSortType={onUpdateSortType} sortOrder={sortOrder} setSortOrder={onUpdateSortOrder}/>
 
       <div className="w-xl flex flex-col items-center gap-4">
         {thoughts.map((thought) => (
