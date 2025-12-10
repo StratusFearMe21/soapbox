@@ -35,6 +35,7 @@ export default async function getFeedPage(page: number, sortType: SortType, sort
       reply_count
     `)
     .order(sortColumn, sortOptions)
+    .is("parent_thought", null)
     // .eq for created_at matching
     .range(from, to)
 
