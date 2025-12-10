@@ -29,7 +29,7 @@ function Confirm() {
           let { data, error } = await supabase
             .from('profiles')
             .insert([
-              { id: user.id, created_at: new Date().toISOString(), last_edited: new Date().toISOString(), username: searchParams.get("uesrname"), nickname: searchParams.get("nickname"), bio: null }
+              { id: user.id, created_at: new Date().toISOString(), last_edited: new Date().toISOString(), username: searchParams.get("username"), nickname: searchParams.get("nickname"), bio: null }
             ])
 
           if (error) throw error;
