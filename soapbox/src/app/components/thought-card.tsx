@@ -5,6 +5,7 @@ import { Thought } from "@/app/components/thought";
 import formatDate from "@/app/utils/formatDate";
 import LikeButton from "@/app/components/like-button";
 import {useEffect, useState} from "react";
+import FollowButton from "./follow-button";
 
 interface ThoughtProp {
   thought: Thought
@@ -15,17 +16,24 @@ interface ThoughtProp {
 export default function ThoughtCard( { thought, nickname, username } : ThoughtProp ) {
   const reply_count = thought.reply_count ? thought.reply_count : 0;
   const like_count = thought.like_count ? thought.like_count : 0;
+  const follow_count = thought.follow_count ? thought.follow_count : 0;
 
   const [ likeCount , setLikeCount ] = useState(like_count);
+  const [ followCount , setFollowCount ] = useState(follow_count);
   const [ isLiked, setIsLiked ] = useState(thought.is_liked ? thought.is_liked : false);
+  const [ isFollowed, setIsFollowed ] = useState(thought.is_followed ? thought.is_followed : false);
 
   useEffect(() => {
     const loadLike = async () => {
       setIsLiked(thought.is_liked ? thought.is_liked : false);
     }
+    const loadFollow= async () => {
+      setIsFollowed(thought.is_followed ? thought.is_followed: false);
+    }
 
     loadLike();
-  }, [thought.is_liked]);
+    loadFollow();
+  }, [thought.is_liked, thought.is_followed]);
 
   const handleLikeChange = (increase: boolean) => {
     if (increase) {
@@ -34,6 +42,15 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
     } else {
       setIsLiked(false);
       setLikeCount(likeCount - 1)
+    }
+  }
+  const handleFollowChange = (increase: boolean) => {
+    if (increase) {
+      setIsFollowed(true);
+      setFollowCount(followCount + 1);
+    } else {
+      setIsFollowed(false);
+      setFollowCount(followCount - 1)
     }
   }
 
@@ -67,6 +84,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
         <div className={"text-sm"}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
       </div>
       <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
+      <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowed}/>
     </div>
   )
 }

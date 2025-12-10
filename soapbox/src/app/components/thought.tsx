@@ -15,8 +15,9 @@ export interface Thought {
   profile?: Profile,
   like_count?: number,
   reply_count?: number,
+  follow_count?: number,
   is_liked?: boolean,
-
+  is_followed?: boolean,
 }
 
 export interface Profile {
