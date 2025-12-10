@@ -83,6 +83,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
       <div className={"w-[20%] text-sm"}>{reply_count == 1 ? reply_count + " Reply" : reply_count + " Replies"}</div>
         <div className={"text-sm"}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
       </div>
+    <div className={"flex w-full flex-row-reverse"}></div>
       <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
       <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowed}/>
     </div>
