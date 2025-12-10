@@ -56,7 +56,7 @@ export default function UserPage
 
         <p className={"text-center font-bold"}></p>
 
-        <div className="max-w-md flex flex-col items-center gap-4">
+        <div className="w-lg flex flex-col items-center gap-4">
           {profile.thoughts?.map((thought) => (
             <ThoughtCard key={thought.id} thought={thought} nickname={ profile.nickname ? profile.nickname : '' } username={ profile.username ? profile.username : '' } />
           ))}

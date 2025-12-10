@@ -7,6 +7,7 @@ import useMetadata from "@/app/utils/useMetadata";
 import Loading from "@/app/components/loading";
 import getFeedPage from "@/app/utils/getFeedPage";
 import {SortOrder, SortType, Timeframe} from "@/app/components/sort-enums";
+import SortSettings from "@/app/components/sort-settings";
 
 
 export default function StreamPage()
@@ -42,7 +43,7 @@ export default function StreamPage()
   ) : (thoughts) ? (
 
     <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
-
+      <SortSettings/>
 
       <div className="w-xl flex flex-col items-center gap-4">
         {thoughts.map((thought) => (
