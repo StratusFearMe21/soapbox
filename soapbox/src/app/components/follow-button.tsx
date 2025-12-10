@@ -34,7 +34,7 @@ export default function FollowButton({user_id, is_followed, followChangeFunction
 
   return (
     <Button
-      className={"absolute bottom-0 right-0 text-xs w-fit h-6"}
+      className={"text-xs w-fit h-6"}
       disabled={isLoading}
       variant={"glass"}
       onClick={handleFollowClick}
