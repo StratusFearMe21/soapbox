@@ -1,11 +1,7 @@
 "use server";
 
-import {Profile, Thought} from "@/app/components/thought";
-import {getUserPostCount, getUserPosts, getUserProfile} from "@/app/user/actions/profileActions";
 import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
 import {createClient} from "@/app/utils/supabase/server";
-import {fetchIsLikeds} from "@/app/utils/likeActions";
-import { fetchIsFollows } from "@/app/utils/followActions";
 
 export async function getProfile(username: string) {
   const supabase = await createClient();

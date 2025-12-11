@@ -2,8 +2,6 @@
 
 import {createClient} from "@/app/utils/supabase/server";
 import {getCurrentUserId} from "@/app/utils/getCurrentUserId";
-import {fetchIsLikeds} from "@/app/utils/likeActions";
-import { fetchIsFollows } from "@/app/utils/followActions";
 
 export async function getFullThought(username: string, thought_id: string) {
   const supabase = await createClient();
@@ -21,6 +19,7 @@ export async function getFullThought(username: string, thought_id: string) {
       reply_count,
       replies:thoughts_test!parent_thought (
         *,
+        is_liked,
         profile:profiles!thoughts_test_user_id_fkey1 ( 
           username,
           nickname
@@ -41,9 +40,6 @@ export async function getFullThought(username: string, thought_id: string) {
   if (error) console.log(error);
 
   if (thought) {
-    await fetchIsLikeds(thought.replies)
-    await fetchIsFollows(thought.replies)
-
     thought.requester_id = await getCurrentUserId();
     return thought;
   }
