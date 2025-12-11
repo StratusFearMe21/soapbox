@@ -52,7 +52,7 @@ export default function UserPage
   return loading ? (
     <Loading/>
   ) : (profile) ? (
-    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
+    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto scroll-m-0 overflow-x-hidden pt-10 pb-20">
 
       <div className={"flex flex-col items-center w-full max-w-2xl px-4"}>
         <div className="w-full p-6 mb-8 glass rounded-2xl text-center">
@@ -68,7 +68,7 @@ export default function UserPage
 
         <div className="w-lg flex flex-col items-center gap-4">
           {profile.thoughts?.map((thought) => (
-            <ThoughtCard key={thought.id} thought={thought} nickname={ profile.nickname ? profile.nickname : '' } username={ profile.username ? profile.username : '' } />
+            <ThoughtCard key={thought.id} noFollow={true} thought={thought} nickname={ profile.nickname ? profile.nickname : '' } username={ profile.username ? profile.username : '' } />
           ))}
         </div>
       </div>

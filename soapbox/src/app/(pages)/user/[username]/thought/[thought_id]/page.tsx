@@ -115,7 +115,7 @@ export default function ThoughtPage
 
         <div className={"absolute bottom-0 right-0 gap-8 mb-6 mr-6 flex w-full flex-row-reverse"}>
           <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
-          <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowing}/>
+          { requesterId != thought.user_id ? <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowing}/> : null }
         </div>
       </div>
 

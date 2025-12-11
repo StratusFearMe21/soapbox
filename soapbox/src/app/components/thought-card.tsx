@@ -9,12 +9,13 @@ import FollowButton from "./follow-button";
 import {Button} from "@/app/components/ui/button";
 
 interface ThoughtProp {
+  noFollow: boolean;
   thought: Thought
   nickname: string,
   username: string,
 }
 
-export default function ThoughtCard( { thought, nickname, username } : ThoughtProp ) {
+export default function ThoughtCard( { noFollow, thought, nickname, username } : ThoughtProp ) {
   const reply_count = thought.reply_count ? thought.reply_count : 0;
   const like_count = thought.like_count ? thought.like_count : 0;
   //const follow_count = thought.follow_count ? thought.follow_count : 0;
@@ -38,7 +39,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
     }
 
     loadFollow();
-  }, [thought.is_following]);
+  }, [thought.profile?.is_following]);
 
   const handleLikeChange = (increase: boolean) => {
     if (increase) {
@@ -90,7 +91,7 @@ export default function ThoughtCard( { thought, nickname, username } : ThoughtPr
         {/*buttons*/}
         <div className={"absolute bottom-0 right-0 gap-8 mb-6 mr-6 flex w-full flex-row-reverse z-10"}>
           <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
-          <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowing}/>
+          {!noFollow ? <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowing}/> : null}
         </div>
       </div>
   )

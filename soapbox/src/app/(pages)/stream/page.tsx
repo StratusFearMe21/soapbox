@@ -59,7 +59,7 @@ export default function StreamPage()
     <Loading/>
   ) : (thoughts) ? (
 
-    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto overflow-x-hidden pt-10 pb-20">
+    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-scroll scroll-m-0 overflow-x-hidden pt-10 pb-20">
       <SortSettings
         page={page}
         setPage={onUpdatePage}
@@ -77,7 +77,7 @@ export default function StreamPage()
       {thoughts.length > 0 ?
         <div className="w-xl flex flex-col items-center gap-4">
           {thoughts.map((thought) => (
-            <ThoughtCard key={thought.id} thought={thought} nickname={ thought.profile?.nickname ? thought.profile.nickname : '' } username={ thought.profile?.username ? thought.profile.username : '' } />
+            <ThoughtCard key={thought.id} noFollow={false} thought={thought} nickname={ thought.profile?.nickname ? thought.profile.nickname : '' } username={ thought.profile?.username ? thought.profile.username : '' } />
           ))}
         </div>
         :
