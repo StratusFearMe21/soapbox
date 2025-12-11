@@ -13,8 +13,10 @@ export async function getFullThought(username: string, thought_id: string) {
       *,
       profile:profiles!thoughts_test_user_id_fkey1 ( 
         username,
-        nickname
+        nickname,
+        is_following
       ),
+      is_liked,
       like_count,
       reply_count,
       replies:thoughts_test!parent_thought (

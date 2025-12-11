@@ -30,7 +30,7 @@ export default function ThoughtPage
   const [ likeCount , setLikeCount ] = useState(0);
   const [ isLiked, setIsLiked ] = useState(false);
   // needs to be setup
-  const [ isFollowed, setIsFollowed ] = useState(false);
+  const [ isFollowing, setIsFollowing ] = useState(false);
 
   // set site metadata
   useMetadata((thought?.profile ? `${thought.profile.nickname}: "${thought.text_content}"` : "Thought") + " | Soapbox");
@@ -51,9 +51,8 @@ export default function ThoughtPage
         // for delete button
         setRequesterId(thought.requester_id);
 
-        console.log(thought.is_liked)
         setIsLiked(thought.is_liked ? thought.is_liked : false);
-        setIsFollowed(thought.is_followed ? thought.is_followed : false)
+        setIsFollowing(thought.profile?.is_following ? thought.profile?.is_following : false)
       }
 
       // finally make it all visible :D
@@ -74,7 +73,7 @@ export default function ThoughtPage
     }
   }
   const handleFollowChange = (new_value: boolean) => {
-    setIsFollowed(new_value);
+    setIsFollowing(new_value);
   }
 
   return loading ? (
@@ -116,7 +115,7 @@ export default function ThoughtPage
 
         <div className={"absolute bottom-0 right-0 gap-8 mb-6 mr-6 flex w-full flex-row-reverse"}>
           <LikeButton thought_id={thought.id} likeChangeFunction={handleLikeChange} is_liked={isLiked}/>
-          <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowed}/>
+          <FollowButton user_id={thought.user_id} followChangeFunction={handleFollowChange} is_followed={isFollowing}/>
         </div>
       </div>
 

@@ -3,8 +3,8 @@ import formatDate from "@/app/utils/formatDate";
 import {useState} from "react";
 import LikeButton from "@/app/components/like-button";
 import DeleteThoughtButton from "@/app/components/delete-thought-button";
-import FollowButton from "@/app/components/follow-button";
-//import {getInteractionsCount} from "@/app/user/actions/likeActions";
+import Link from "next/link";
+import {Button} from "@/app/components/ui/button";
 
 interface ReplyProp {
   reply: Thought;
@@ -27,8 +27,18 @@ export default function ReplyCard({ reply, requester_id }: ReplyProp) {
 
   return (
     <div className={"glass p-6 w-full rounded-xl"}>
-      <p className={"inline-block mr-1 font-bold"}>{reply.profile?.nickname}</p>
-      <p className={"inline-block"}>@{reply.profile?.username}</p>
+
+      <Button variant={"glass"} className={"m-0 normal-case tracking-normal"} asChild>
+        <Link className={"text-md rounded-4xl z-10"} href={"/user/" + reply?.profile?.username}>
+          <p className={"inline-block font-bold"}>
+            {reply?.profile?.username}
+          </p>
+          <p className={"inline-block opacity-70"}>
+            @{reply?.profile?.nickname}
+          </p>
+        </Link>
+      </Button>
+
       <p className={"mt-1 leading-relaxed w-full wrap-break-word"}>{reply.text_content}</p>
 
       <div className={"h-px bg-white/20 w-full my-2"}/>
@@ -39,7 +49,7 @@ export default function ReplyCard({ reply, requester_id }: ReplyProp) {
         <div className={"text-sm"}>{likeCount == 1 ? likeCount + " Like" : likeCount + " Likes"}</div>
       </div>
 
-      <div className={"absolute top-0 right-0 gap-8 mt-2 mr-2 flex w-full flex-row-reverse"}>
+      <div className={"absolute top-0 right-0 gap-8 mt-2 mr-2 flex flex-row-reverse"}>
         {requester_id == reply.user_id ? <DeleteThoughtButton thought_id={reply.id}/> : null}
       </div>
 
