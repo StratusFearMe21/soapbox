@@ -86,10 +86,10 @@ export default function ThoughtPage
           <Button variant={"glass"} className={"m-0 normal-case tracking-normal"} asChild>
             <Link className={"text-md rounded-4xl z-10"}  href={"/user/" + thought?.profile?.username} >
               <p className={"inline-block font-bold"}>
-                {thought?.profile?.username}
+                {thought?.profile?.nickname}
               </p>
               <p className={"inline-block opacity-70"}>
-                @{thought?.profile?.nickname}
+                @{thought?.profile?.username}
               </p>
             </Link>
           </Button>

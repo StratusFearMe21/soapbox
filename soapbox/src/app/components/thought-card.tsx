@@ -65,10 +65,10 @@ export default function ThoughtCard( { noFollow, thought, nickname, username } :
         <Button variant={"glass"} className={"m-0 normal-case tracking-normal"} asChild>
           <Link className={"text-md rounded-4xl z-10"}  href={"/user/" + username} >
             <p className={"inline-block font-bold"}>
-              {username}
+              {nickname}
             </p>
             <p className={"inline-block opacity-70"}>
-              @{nickname}
+              @{username}
             </p>
           </Link>
         </Button>

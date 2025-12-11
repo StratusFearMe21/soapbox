@@ -59,7 +59,7 @@ export default function StreamPage()
     <Loading/>
   ) : (thoughts) ? (
 
-    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-scroll scroll-m-0 overflow-x-hidden pt-10 pb-20">
+    <div className="w-screen min-h-screen h-fit flex flex-col items-center overflow-y-scroll scroll-m-0 overflow-x-hidden pt-10 pb-20">
       <SortSettings
         page={page}
         setPage={onUpdatePage}
